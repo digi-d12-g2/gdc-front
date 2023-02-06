@@ -1,0 +1,21 @@
+h1 {
+  text-align: center;
+  padding-top: 5%;
+}
+
+fieldset legend {
+  text-align: left;
+  padding: 20px;
+}
+
+#form-auth {
+  margin: auto;
+  width: 50%;
+  text-align: center;
+  padding: 5%;
+}
+
+#forgotPassword {
+  text-decoration: underline;
+  padding: 20px;
+}

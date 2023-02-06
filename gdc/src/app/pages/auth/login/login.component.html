@@ -1,17 +1,17 @@
 <h1>GDC - Gestion Des Congés</h1>
-<form id="form-auth">
+<form id="form-auth" [formGroup]="form" (submit)="onSubmit()">
   <fieldset>
     <legend>Authentification</legend>
     <p>
       <mat-form-field appearance="fill">
         <mat-label>Adresse email</mat-label>
-        <input matInput placeholder="email@email.fr" />
+        <input matInput placeholder="email@email.fr" id="email" formControlName="email"/>
       </mat-form-field>
     </p>
     <p>
       <mat-form-field appearance="outline">
         <mat-label>Mot de passe</mat-label>
-        <input matInput placeholder="*******" />
+        <input matInput placeholder="*******" id="password" formControlName="password"/>
       </mat-form-field>
     </p>
     <button mat-raised-button>Se connecter</button>

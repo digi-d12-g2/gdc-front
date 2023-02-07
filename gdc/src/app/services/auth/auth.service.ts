@@ -8,10 +8,8 @@ import { environment } from '../../../environments/environment';
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  async storeUser(email: String, password: String) {
-    const user: any = await this.http.get(
-      `${environment.API_URL}/user?email=${email}&password=${password}`
-    );
-    await localStorage.setItem('user', user);
-  }
+  storeUser(email: String, password: String) {
+    return this.http.get(`http://localhost:8080/user?email=${email}&password=${password}`);
+  };
+
 }

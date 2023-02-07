@@ -21,9 +21,8 @@ export class LoginComponent implements OnInit {
 
   async onSubmit() {
     this.authSrv
-      .storeUser(this.form.value.email, this.form.value.password)
-      .then(() => {
-        console.log(this.form.value);
-      });
+      .storeUser(this.form.value.email, this.form.value.password).subscribe(result =>
+        console.log(result)
+      );
   }
 }

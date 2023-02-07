@@ -1,1 +1,34 @@
-<p>navbar works!</p>
+<mat-toolbar>
+
+  <!-- Admin navbar -->
+  <!-- <mat-button-toggle-group name="navbar" aria-label="Navbar">
+    <mat-button-toggle value="Jours fériés">Jours fériés</mat-button-toggle>
+    <mat-button-toggle value="RTT employeurs">RTT employeurs</mat-button-toggle>
+    <mat-button-toggle value="Utilisateurs">Utilisateurs</mat-button-toggle>
+  </mat-button-toggle-group> -->
+
+  <!-- Manager navbar -->
+  <mat-button-toggle-group name="navbar" aria-label="Navbar">
+    <mat-button-toggle value="Planning absences générales">Planning absences générales</mat-button-toggle>
+    <mat-button-toggle value="Planning mes absences">Planning mes absences</mat-button-toggle>
+    <mat-button-toggle value="Gestion des absences">Gestion des absences</mat-button-toggle>
+    <mat-button-toggle value="Validation demandes">Validation demandes</mat-button-toggle>
+    <mat-button-toggle value="Vues synthétiques">Vues synthétiques</mat-button-toggle>
+    <mat-button-toggle value="Jours fériés">Jours fériés</mat-button-toggle>
+  </mat-button-toggle-group>
+
+
+  <!-- Employee navbar -->
+  <!-- <mat-button-toggle-group name="navbar" aria-label="Navbar">
+    <mat-button-toggle value="Planning des absences">Planning des absences</mat-button-toggle>
+    <mat-button-toggle value="Gestion des absences">Gestion des absences</mat-button-toggle>
+    <mat-button-toggle value="Jours fériés">Jours fériés</mat-button-toggle>
+  </mat-button-toggle-group> -->
+
+  <span class="example-spacer"></span>
+
+  <div class="nameAndLogout">
+    <div>Bonjour {{ " " }}</div>
+    <div class="logout">Se déconnecter</div>
+  </div>
+</mat-toolbar>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { AbsenceService } from 'src/app/services/absence/absence.service';
 
 export interface PeriodicElement {
   name: string;
@@ -21,18 +22,27 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
 
+
 @Component({
   selector: 'app-absence',
   templateUrl: './absence.component.html',
   styleUrls: ['./absence.component.css']
 })
 export class AbsenceComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  displayedColumns: string[] = ['date_start', 'date_end', 'reason', 'type'];
+  dataSource: any;
 
-  constructor() { }
+  absences!: any;
+
+  constructor(private absenceSrv: AbsenceService) { }
 
   ngOnInit(): void {
+    this.absenceSrv.getAbsences(1).subscribe(result => {
+      this.absences = result;
+      this.dataSource = new MatTableDataSource(this.absences);
+    });
+
+
   }
 
 }

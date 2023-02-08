@@ -10,7 +10,7 @@ export class AuthService {
 
   storeUser(email: String, password: String) {
     return this.http.get(
-      `http://localhost:8080/user?email=${email}&password=${password}`
+      `${environment.API_URL}user?email=${email}&password=${password}`
     );
   }
 }

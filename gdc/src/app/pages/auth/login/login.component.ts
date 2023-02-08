@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import {log} from "util";
 
 @Component({
   selector: 'app-login',
@@ -20,10 +21,10 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   async onSubmit() {
-    this.authSrv
-      .storeUser(this.form.value.email, this.form.value.password).subscribe(result => {
-          console.log(result);
-        }
-      );
+    await this.authSrv.login(this.form.value.email, this.form.value.password).subscribe(
+      data => this.authSrv.storeUser(data),
+      (error) => {
+      }
+    );
   }
 }

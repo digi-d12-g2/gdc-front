@@ -14,6 +14,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AbsenceComponent } from './pages/absence/absence.component';
 import { SharedModule } from './shared/shared.module';
 import { LayoutComponent } from './layout/layout.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, AbsenceComponent, LayoutComponent],
@@ -28,7 +30,9 @@ import { LayoutComponent } from './layout/layout.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    MatTableModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

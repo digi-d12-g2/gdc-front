@@ -14,9 +14,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { AbsenceComponent } from './pages/absence/absence.component';
 import { SharedModule } from './shared/shared.module';
 import { LayoutComponent } from './layout/layout.component';
+import { EmployerRttComponent } from './pages/employer-rtt/employer-rtt.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, AbsenceComponent, LayoutComponent],
+  declarations: [AppComponent, LoginComponent, AbsenceComponent, LayoutComponent, EmployerRttComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

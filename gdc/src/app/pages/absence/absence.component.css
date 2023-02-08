@@ -18,3 +18,25 @@ table {
   margin-left: 10%;
   margin-top: 1%;
 }
+
+.example-sidenav {
+  width: 50%;
+  height: 100%;
+  border: black solid 2px;
+  display: flex;
+  justify-content: center;
+}
+
+.example-full-width {
+  margin: 0 8px 16px 0;
+}
+
+mat-drawer-container {
+  height: 60%;
+}
+
+#form-auth {
+  border: red 1px solid;
+  justify-content: center;
+  width: 50%;
+}

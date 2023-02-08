@@ -1,25 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+import { AbsenceService } from 'src/app/services/absence/absence.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-absence',
@@ -27,12 +10,36 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./absence.component.css']
 })
 export class AbsenceComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  displayedColumns: string[] = ['date_start', 'date_end', 'type', 'reason', 'status'];
+  dataSource: any;
 
-  constructor() { }
+  absences!: any;
+
+  form: FormGroup;
+
+  constructor(private absenceSrv: AbsenceService) {
+    this.form = new FormGroup({
+      date_start: new FormControl(null, [Validators.required]),
+      date_end: new FormControl(null, [Validators.required]),
+      type: new FormControl(null, [Validators.required]),
+      reason: new FormControl(null),
+      userId: new FormControl(1)
+    });
+  }
 
   ngOnInit(): void {
+    this.absenceSrv.getAbsences(1).subscribe(absences => {
+      this.absences = absences;
+      console.log(this.absences);
+      this.dataSource = new MatTableDataSource(this.absences);
+    });
+  }
+
+  onSubmit(){
+    this.absenceSrv.addAbsence(this.form.value).subscribe(absence => {
+      console.log(absence);
+    })
+
   }
 
 }

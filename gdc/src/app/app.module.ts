@@ -16,6 +16,9 @@ import { SharedModule } from './shared/shared.module';
 import { LayoutComponent } from './layout/layout.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, AbsenceComponent, LayoutComponent],
@@ -33,6 +36,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     SharedModule,
     MatTableModule,
     MatPaginatorModule,
+    MatSidenavModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent],

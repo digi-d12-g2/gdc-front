@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { AbsenceService } from 'src/app/services/absence/absence.service';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { Type } from 'src/app/enums/type';
+import { Status } from 'src/app/enums/status';
 
 @Component({
   selector: 'app-absence',
@@ -10,12 +11,13 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
   styleUrls: ['./absence.component.css']
 })
 export class AbsenceComponent implements OnInit {
+
   displayedColumns: string[] = ['date_start', 'date_end', 'type', 'reason', 'status'];
   dataSource: any;
-
   absences!: any;
-
   form: FormGroup;
+  types = Type;
+  selectedValue: string = '';
 
   constructor(private absenceSrv: AbsenceService) {
     this.form = new FormGroup({
@@ -30,7 +32,6 @@ export class AbsenceComponent implements OnInit {
   ngOnInit(): void {
     this.absenceSrv.getAbsences(1).subscribe(absences => {
       this.absences = absences;
-      console.log(this.absences);
       this.dataSource = new MatTableDataSource(this.absences);
     });
   }
@@ -39,7 +40,19 @@ export class AbsenceComponent implements OnInit {
     this.absenceSrv.addAbsence(this.form.value).subscribe(absence => {
       console.log(absence);
     })
-
   }
 
+  getStringType(type: string){
+    const indexOfType = Object.keys(Type).indexOf(type);
+    const valueOfType = Object.values(Type)[indexOfType];
+
+    return valueOfType;
+  }
+
+  getStringStatus(status: string){
+    const indexOfType = Object.keys(Status).indexOf(status);
+    const valueOfType = Object.values(Status)[indexOfType];
+
+    return valueOfType;
+  }
 }

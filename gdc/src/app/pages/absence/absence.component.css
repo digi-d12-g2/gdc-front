@@ -22,7 +22,7 @@ table {
 .example-sidenav {
   width: 50%;
   height: 100%;
-  border: black solid 2px;
+  /* border: black solid 2px; */
   display: flex;
   justify-content: center;
 }
@@ -32,11 +32,11 @@ table {
 }
 
 mat-drawer-container {
-  height: 60%;
+  height: 70%;
 }
 
 #form-auth {
-  border: red 1px solid;
+  /* border: red 1px solid; */
   justify-content: center;
   width: 50%;
 }

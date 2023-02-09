@@ -1,7 +1,4 @@
 <form id="form-auth" [formGroup]="form" (submit)="onSubmit()">
-  <!-- <p>
-    Send Data : {{elementId}}
-  </p> -->
   <h1>Demande d'absence</h1>
   <p>
     <mat-form-field appearance="fill">
@@ -32,12 +29,14 @@
     <mat-form-field appearance="fill">
       <mat-label>Type d'absence</mat-label>
       <mat-select formControlName="type" [(ngModel)]="selectedValue">
-        <mat-option
-          *ngFor="let type of types | keyvalue"
+        <ng-container *ngFor="let type of types | keyvalue"
+        >
+        <mat-option *ngIf="type.key !== 'RTT_EMPLOYEUR'"
           [value]="type.key"
         >
           {{ type.value }}
         </mat-option>
+      </ng-container>
       </mat-select>
     </mat-form-field>
   </p>

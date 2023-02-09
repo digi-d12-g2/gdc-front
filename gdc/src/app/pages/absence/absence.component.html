@@ -1,5 +1,5 @@
 <div class="button">
-  <button mat-raised-button color="primary" (click)="drawer.toggle()">
+  <button mat-raised-button color="primary" (click)="openAddDialog()">
     Faire une demande d'absence
   </button>
 </div>
@@ -38,8 +38,9 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let element">
-          <mat-icon (click)="onUpdate(element.id)" (click)="drawer.toggle()">edit</mat-icon>
-          <mat-icon (click)="openDialog(element.id)">delete_outline</mat-icon>
+          <mat-icon *ngIf="element.status === 'INITIALE' || element.status === 'REJETEE'" (click)="openAddDialog(element)">edit</mat-icon>
+          <mat-icon *ngIf="element.status !== 'INITIALE' && element.status !== 'REJETEE'" ></mat-icon>
+          <mat-icon (click)="openDeleteDialog(element.id)">delete_outline</mat-icon>
         </td>
       </ng-container>
 
@@ -57,7 +58,5 @@
   <div class="balance rtt">Solde RTT : 7</div>
 
   <mat-drawer #drawer class="example-sidenav" mode="side" position="end">
-    <app-absence-form [elementId]="parentMessage" [userId]="user.id">
-    </app-absence-form>
   </mat-drawer>
 </mat-drawer-container>

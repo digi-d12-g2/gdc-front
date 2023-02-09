@@ -7,6 +7,8 @@ import { Status } from 'src/app/enums/status';
 import { ConfirmationDialogComponent } from '../modal/confirmation-dialog/confirmation-dialog.component';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Subscription } from 'rxjs';
+import { AbsenceFormComponent } from './absence-form/absence-form.component';
+import { Absence } from 'src/app/models/Absence.model';
 
 @Component({
   selector: 'app-absence',
@@ -20,7 +22,6 @@ export class AbsenceComponent implements OnInit {
   absences!: any;
   types = Type;
   selectedValue: string = '';
-  parentMessage!: number;
   user!: any;
   signInSubscription: Subscription;
 
@@ -33,10 +34,7 @@ export class AbsenceComponent implements OnInit {
   async ngOnInit() {
     this.user = await this.authSrv.getUser();
 
-    this.absenceSrv.getAbsences(1).subscribe(absences => {
-      this.absences = absences;
-      this.dataSource = new MatTableDataSource(this.absences);
-    });
+    this.refreshList();
   }
 
   getStringType(type: string){
@@ -53,11 +51,20 @@ export class AbsenceComponent implements OnInit {
     return valueOfType;
   }
 
-  onUpdate(id: number){
-    this.parentMessage = id;
+  openAddDialog(absence?:Absence){
+    const dialogRef = this.dialog.open(AbsenceFormComponent,{
+      data:{
+        userId: this.user.id,
+        absence: absence
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.refreshList();
+    });
   }
 
-  openDialog(id: number) {
+  openDeleteDialog(id: number) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent,{
       data:{
         message: 'Etes-vous sûr de vouloir annuler la demande d\'absence ?',
@@ -67,6 +74,17 @@ export class AbsenceComponent implements OnInit {
         },
         id: id
       }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.refreshList();
+    });
+  }
+
+  refreshList(){
+    this.absenceSrv.getAbsences(this.user.id).subscribe(absences => {
+      this.absences = absences;
+      this.dataSource = new MatTableDataSource(this.absences);
     });
   }
 }

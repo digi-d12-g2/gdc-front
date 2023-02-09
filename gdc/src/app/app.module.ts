@@ -21,7 +21,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { AbsenceFormComponent } from './pages/absence/absence-form/absence-form.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './pages/modal/confirmation-dialog/confirmation-dialog.component';
 
 
@@ -47,7 +47,10 @@ import { ConfirmationDialogComponent } from './pages/modal/confirmation-dialog/c
     MatSelectModule,
     MatDialogModule
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

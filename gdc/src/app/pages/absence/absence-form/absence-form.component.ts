@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Type } from 'src/app/enums/type';
+import { Absence } from 'src/app/models/Absence.model';
 import { AbsenceService } from 'src/app/services/absence/absence.service';
-import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-absence-form',
@@ -12,44 +13,53 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class AbsenceFormComponent implements OnInit {
 
   @Input() form!: FormGroup;
-  @Input() elementId!: number;
-  @Input() userId!: number;
+  userId!: number;
+  absence: Absence;
   selectedValue: string = '';
   types = Type;
   isAddMode!: boolean;
 
-  constructor(private absenceSrv: AbsenceService) {
+
+  constructor(private absenceSrv: AbsenceService,
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private dialogRef: MatDialogRef<AbsenceFormComponent>) {
+
+      this.userId = data.userId;
+      this.absence = data.absence?data.absence:new Absence;
   }
 
   ngOnInit(): void {
+    this.isAddMode = !this.absence.id;
+
     this.form = new FormGroup({
-      date_start: new FormControl(null, [Validators.required]),
-      date_end: new FormControl(null, [Validators.required]),
+      date_start: new FormControl(this.absence.date_start, [Validators.required]),
+      date_end: new FormControl(this.absence.date_end, [Validators.required]),
       type: new FormControl(null, [Validators.required]),
-      reason: new FormControl(null),
+      reason: new FormControl(this.absence.reason),
       userId: new FormControl(this.userId)
     });
   }
 
   onSubmit(){
-    this.isAddMode = !this.elementId;
 
     if (this.isAddMode) {
       this.addAbsence();
     } else {
         this.updateAbsence();
     }
+
+    this.dialogRef.close();
   }
 
   private addAbsence(){
-    // console.log(this.user.id);
+    console.log(this.form.value);
     this.absenceSrv.addAbsence(this.form.value).subscribe(absence => {
       console.log(absence);
     });
   }
 
   private updateAbsence(){
-    this.absenceSrv.updateAbsence(this.elementId, this.form.value).subscribe(absence => {
+    this.absenceSrv.updateAbsence(this.absence.id, this.form.value).subscribe(absence => {
       console.log(absence);
     });
   }

@@ -40,10 +40,11 @@
       </mat-select>
     </mat-form-field>
   </p>
-  <p *ngIf="selectedValue === 'CONGES_SANS_SOLDE'">
+  <p>
     <mat-form-field appearance="outline">
       <mat-label>Motif</mat-label>
-      <input matInput placeholder="" id="reason" formControlName="reason" />
+      <input *ngIf="selectedValue === 'CONGES_SANS_SOLDE'" matInput placeholder="Mariage..." id="reason" formControlName="reason" required/>
+      <input *ngIf="selectedValue !== 'CONGES_SANS_SOLDE'" matInput placeholder="Mariage..." id="reason" formControlName="reason"/>
     </mat-form-field>
   </p>
   <button mat-raised-button>Envoyer la demande</button>

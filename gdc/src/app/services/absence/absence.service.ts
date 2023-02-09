@@ -10,6 +10,7 @@ export class AbsenceService {
 
   constructor(private http: HttpClient) {}
 
+  /** absences */
   getAbsences(id: Number) {
     return this.http.get(`${environment.API_URL}absences/user/${id}`);
   }
@@ -24,5 +25,14 @@ export class AbsenceService {
 
   deleteAbsence(id: Number){
     return this.http.delete(`${environment.API_URL}absences/${id}`);
+  }
+
+  /** RTT employeur */
+  getRttEmployer() {
+    return this.http.get(`${environment.API_URL}absences`);
+  }
+
+  getSoldeRttEmployer() {
+    return this.http.get(`${environment.API_URL}rtt_employer`);
   }
 }

@@ -1,0 +1,17 @@
+<form id="form-auth" [formGroup]="form" (submit)="onSubmit()">
+  <h1 *ngIf="isAddMode">Ajout d'une RTT employeur</h1>
+  <h1 *ngIf="!isAddMode">Modification de la RTT</h1>
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Entrer une date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date_start">
+      <mat-hint>JJ/MM/AAAA</mat-hint>
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </p>
+  <button mat-raised-button>Ajouter</button>
+</form>

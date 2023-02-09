@@ -1,0 +1,32 @@
+.button {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10%;
+  margin-bottom: 1%;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1%;
+  width: 80%;
+}
+
+.balance {
+  border: solid 1px;
+  width: fit-content;
+  padding: 5px;
+  margin-left: 10%;
+  margin-top: 1%;
+}
+
+.example-sidenav {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  background-color:aliceblue;
+}
+
+.example-full-width {
+  margin: 0 8px 16px 0;
+}

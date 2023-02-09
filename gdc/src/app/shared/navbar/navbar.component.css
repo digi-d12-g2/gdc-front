@@ -30,4 +30,5 @@ p {
 .logout {
   text-decoration: underline;
   color:blue;
+  cursor: pointer;
 }

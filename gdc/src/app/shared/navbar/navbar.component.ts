@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from "../../services/auth/auth.service";
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  user: any;
+  signInSubscription: Subscription;
 
-  ngOnInit(): void {
+  constructor(
+    public authSrv: AuthService
+  ) {
+    // user login event
+    this.signInSubscription = this.authSrv.signInEvent.subscribe(async () => {
+      this.user = await this.authSrv.getUser();
+    });
+  }
+
+  async logout() {
+    await this.authSrv.logout();
+  }
+
+  async ngOnInit() {
+    this.user = await this.authSrv.getUser();
   }
 
 }

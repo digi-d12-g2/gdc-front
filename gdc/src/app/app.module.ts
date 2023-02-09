@@ -18,14 +18,16 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { AbsenceFormComponent } from './pages/absence/absence-form/absence-form.component';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { EmployerRttFormComponent } from './pages/employer-rtt/employer-rtt-form/employer-rtt-form.component';
 import { ConfirmationDialogComponent } from './pages/modal/confirmation-dialog/confirmation-dialog.component';
+import { EmployerRttComponent } from './pages/employer-rtt/employer-rtt.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, AbsenceComponent, LayoutComponent, AbsenceFormComponent, ConfirmationDialogComponent],
+  declarations: [AppComponent, LoginComponent, AbsenceComponent, LayoutComponent, AbsenceFormComponent, ConfirmationDialogComponent, EmployerRttComponent, EmployerRttFormComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -48,7 +50,8 @@ import { ConfirmationDialogComponent } from './pages/modal/confirmation-dialog/c
   ],
   providers: [
     { provide: MAT_DIALOG_DATA, useValue: {} },
-    { provide: MatDialogRef, useValue: {} }
+    { provide: MatDialogRef, useValue: {} },
+    { provide: MAT_DATE_LOCALE, useValue: 'fr' }
   ],
   bootstrap: [AppComponent],
 })

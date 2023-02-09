@@ -29,7 +29,7 @@ export class AbsenceService {
 
   /** RTT employeur */
   getRttEmployer() {
-    return this.http.get(`${environment.API_URL}absences`);
+    return this.http.get(`${environment.API_URL}absences/rtt_employer`);
   }
 
   getSoldeRttEmployer() {

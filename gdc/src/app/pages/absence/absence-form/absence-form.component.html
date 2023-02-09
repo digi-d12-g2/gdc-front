@@ -1,5 +1,6 @@
 <form id="form-auth" [formGroup]="form" (submit)="onSubmit()">
-  <h1>Demande d'absence</h1>
+  <h1 *ngIf="isAddMode">Demande d'absence</h1>
+  <h1 *ngIf="!isAddMode">Modification de l'absence</h1>
   <p>
     <mat-form-field appearance="fill">
       <mat-label>Entrer une plage de dates</mat-label>
@@ -17,7 +18,7 @@
           id="date_end"
         />
       </mat-date-range-input>
-      <mat-hint>MM/JJ/AAAA – MM/JJ/AAAA</mat-hint>
+      <mat-hint>JJ/MM/AAAA – JJ/MM/AAAA</mat-hint>
       <mat-datepicker-toggle
         matSuffix
         [for]="picker"

@@ -1,0 +1,50 @@
+<form id="form-auth" [formGroup]="form" (submit)="onSubmit()">
+  <h1>Demande d'absence</h1>
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Entrer une plage de dates</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input
+          matStartDate
+          placeholder="Date début"
+          formControlName="date_start"
+          id="date_start"
+        />
+        <input
+          matEndDate
+          placeholder="Date fin"
+          formControlName="date_end"
+          id="date_end"
+        />
+      </mat-date-range-input>
+      <mat-hint>MM/JJ/AAAA – MM/JJ/AAAA</mat-hint>
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Type d'absence</mat-label>
+      <mat-select formControlName="type" [(ngModel)]="selectedValue">
+        <ng-container *ngFor="let type of types | keyvalue"
+        >
+        <mat-option *ngIf="type.key !== 'RTT_EMPLOYEUR'"
+          [value]="type.key"
+        >
+          {{ type.value }}
+        </mat-option>
+      </ng-container>
+      </mat-select>
+    </mat-form-field>
+  </p>
+  <p *ngIf="selectedValue === 'CONGES_SANS_SOLDE'">
+    <mat-form-field appearance="outline">
+      <mat-label>Motif</mat-label>
+      <input matInput placeholder="" id="reason" formControlName="reason" />
+    </mat-form-field>
+  </p>
+  <button mat-raised-button>Envoyer la demande</button>
+</form>

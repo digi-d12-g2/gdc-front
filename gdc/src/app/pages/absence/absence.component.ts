@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 import { AbsenceService } from 'src/app/services/absence/absence.service';
 import { Type } from 'src/app/enums/type';
 import { Status } from 'src/app/enums/status';
+import { ConfirmationDialogComponent } from '../modal/confirmation-dialog/confirmation-dialog.component';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { Subscription } from 'rxjs';
+import { AbsenceFormComponent } from './absence-form/absence-form.component';
+import { Absence } from 'src/app/models/Absence.model';
 
 @Component({
   selector: 'app-absence',
@@ -12,34 +17,24 @@ import { Status } from 'src/app/enums/status';
 })
 export class AbsenceComponent implements OnInit {
 
-  displayedColumns: string[] = ['date_start', 'date_end', 'type', 'reason', 'status'];
+  displayedColumns: string[] = ['date_start', 'date_end', 'type', 'reason', 'status', 'actions'];
   dataSource: any;
   absences!: any;
-  form: FormGroup;
   types = Type;
   selectedValue: string = '';
+  user!: any;
+  signInSubscription: Subscription;
 
-  constructor(private absenceSrv: AbsenceService) {
-    this.form = new FormGroup({
-      date_start: new FormControl(null, [Validators.required]),
-      date_end: new FormControl(null, [Validators.required]),
-      type: new FormControl(null, [Validators.required]),
-      reason: new FormControl(null),
-      userId: new FormControl(1)
+  constructor(private absenceSrv: AbsenceService, private dialog: MatDialog, private authSrv: AuthService) {
+    this.signInSubscription = this.authSrv.signInEvent.subscribe(async () => {
+      this.user = await this.authSrv.getUser();
     });
   }
 
-  ngOnInit(): void {
-    this.absenceSrv.getAbsences(1).subscribe(absences => {
-      this.absences = absences;
-      this.dataSource = new MatTableDataSource(this.absences);
-    });
-  }
+  async ngOnInit() {
+    this.user = await this.authSrv.getUser();
 
-  onSubmit(){
-    this.absenceSrv.addAbsence(this.form.value).subscribe(absence => {
-      console.log(absence);
-    })
+    this.refreshList();
   }
 
   getStringType(type: string){
@@ -54,5 +49,42 @@ export class AbsenceComponent implements OnInit {
     const valueOfType = Object.values(Status)[indexOfType];
 
     return valueOfType;
+  }
+
+  openAddDialog(absence?:Absence){
+    const dialogRef = this.dialog.open(AbsenceFormComponent,{
+      data:{
+        userId: this.user.id,
+        absence: absence
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.refreshList();
+    });
+  }
+
+  openDeleteDialog(id: number) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,{
+      data:{
+        message: 'Etes-vous sûr de vouloir annuler la demande d\'absence ?',
+        buttonText: {
+          ok: 'Oui',
+          cancel: 'Non'
+        },
+        id: id
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.refreshList();
+    });
+  }
+
+  refreshList(){
+    this.absenceSrv.getAbsences(this.user.id).subscribe(absences => {
+      this.absences = absences;
+      this.dataSource = new MatTableDataSource(this.absences);
+    });
   }
 }

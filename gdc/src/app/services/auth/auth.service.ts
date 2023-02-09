@@ -30,8 +30,8 @@ export class AuthService {
     await this.router.navigate(['/absence']);
   }
 
-  getUser() {
-    return localStorage.getItem('user');
+  async getUser() {
+    return await this.storage.get('user').toPromise();
   }
 
   async logout() {

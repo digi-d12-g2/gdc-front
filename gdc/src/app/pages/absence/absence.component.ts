@@ -24,6 +24,7 @@ export class AbsenceComponent implements OnInit {
   selectedValue: string = '';
   user!: any;
   signInSubscription: Subscription;
+  soldeRtt!: any;
 
   constructor(private absenceSrv: AbsenceService, private dialog: MatDialog, private authSrv: AuthService) {
     this.signInSubscription = this.authSrv.signInEvent.subscribe(async () => {
@@ -86,5 +87,9 @@ export class AbsenceComponent implements OnInit {
       this.absences = absences;
       this.dataSource = new MatTableDataSource(this.absences);
     });
+
+    this.absenceSrv.getSoldeRttEmployer().subscribe(soldeRtt => {
+      this.soldeRtt = soldeRtt;
+    })
   }
 }

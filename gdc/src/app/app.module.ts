@@ -24,7 +24,6 @@ import { AbsenceFormComponent } from './pages/absence/absence-form/absence-form.
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './pages/modal/confirmation-dialog/confirmation-dialog.component';
 
-
 @NgModule({
   declarations: [AppComponent, LoginComponent, AbsenceComponent, LayoutComponent, AbsenceFormComponent, ConfirmationDialogComponent],
   imports: [

@@ -20,9 +20,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { AbsenceFormComponent } from './pages/absence/absence-form/absence-form.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from './pages/modal/confirmation-dialog/confirmation-dialog.component';
+
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, AbsenceComponent, LayoutComponent],
+  declarations: [AppComponent, LoginComponent, AbsenceComponent, LayoutComponent, AbsenceFormComponent, ConfirmationDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -40,7 +44,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatSidenavModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],

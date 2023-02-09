@@ -18,4 +18,11 @@ export class AbsenceService {
     return this.http.post(`${environment.API_URL}absences`, absence);
   }
 
+  updateAbsence(id: Number, absence: Absence){
+    return this.http.put(`${environment.API_URL}absences/${id}`, absence);
+  }
+
+  deleteAbsence(id: Number){
+    return this.http.delete(`${environment.API_URL}absences/${id}`);
+  }
 }

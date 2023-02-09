@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 import { AbsenceService } from 'src/app/services/absence/absence.service';
 import { Type } from 'src/app/enums/type';
 import { Status } from 'src/app/enums/status';
+import { ConfirmationDialogComponent } from '../modal/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-absence',
@@ -12,21 +13,14 @@ import { Status } from 'src/app/enums/status';
 })
 export class AbsenceComponent implements OnInit {
 
-  displayedColumns: string[] = ['date_start', 'date_end', 'type', 'reason', 'status'];
+  displayedColumns: string[] = ['date_start', 'date_end', 'type', 'reason', 'status', 'actions'];
   dataSource: any;
   absences!: any;
-  form: FormGroup;
   types = Type;
   selectedValue: string = '';
+  parentMessage!: number;
 
-  constructor(private absenceSrv: AbsenceService) {
-    this.form = new FormGroup({
-      date_start: new FormControl(null, [Validators.required]),
-      date_end: new FormControl(null, [Validators.required]),
-      type: new FormControl(null, [Validators.required]),
-      reason: new FormControl(null),
-      userId: new FormControl(1)
-    });
+  constructor(private absenceSrv: AbsenceService, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -34,12 +28,6 @@ export class AbsenceComponent implements OnInit {
       this.absences = absences;
       this.dataSource = new MatTableDataSource(this.absences);
     });
-  }
-
-  onSubmit(){
-    this.absenceSrv.addAbsence(this.form.value).subscribe(absence => {
-      console.log(absence);
-    })
   }
 
   getStringType(type: string){
@@ -54,5 +42,26 @@ export class AbsenceComponent implements OnInit {
     const valueOfType = Object.values(Status)[indexOfType];
 
     return valueOfType;
+  }
+
+  onUpdate(id: number){
+    this.parentMessage = id;
+  }
+
+  onDelete(id: number){
+
+  }
+
+  openDialog(id: number) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,{
+      data:{
+        message: 'Etes-vous sûr de vouloir annuler la demande d\'absence ?',
+        buttonText: {
+          ok: 'Oui',
+          cancel: 'Non'
+        },
+        id: id
+      }
+    });
   }
 }

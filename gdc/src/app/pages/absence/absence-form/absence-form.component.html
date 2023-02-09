@@ -2,15 +2,29 @@
   <!-- <p>
     Send Data : {{elementId}}
   </p> -->
+  <h1>Demande d'absence</h1>
   <p>
     <mat-form-field appearance="fill">
-      <mat-label>Enter a date range</mat-label>
+      <mat-label>Entrer une plage de dates</mat-label>
       <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate placeholder="Start date" formControlName="date_start">
-        <input matEndDate placeholder="End date" formControlName="date_end">
+        <input
+          matStartDate
+          placeholder="Date début"
+          formControlName="date_start"
+          id="date_start"
+        />
+        <input
+          matEndDate
+          placeholder="Date fin"
+          formControlName="date_end"
+          id="date_end"
+        />
       </mat-date-range-input>
-      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-hint>MM/JJ/AAAA – MM/JJ/AAAA</mat-hint>
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
   </p>
@@ -18,8 +32,11 @@
     <mat-form-field appearance="fill">
       <mat-label>Type d'absence</mat-label>
       <mat-select formControlName="type" [(ngModel)]="selectedValue">
-        <mat-option *ngFor="let type of types | keyvalue" [value]="type.key">
-          {{type.value}}
+        <mat-option
+          *ngFor="let type of types | keyvalue"
+          [value]="type.key"
+        >
+          {{ type.value }}
         </mat-option>
       </mat-select>
     </mat-form-field>

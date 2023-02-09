@@ -1,9 +1,8 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { Type } from 'src/app/enums/type';
 import { AbsenceService } from 'src/app/services/absence/absence.service';
-import { EventEmitter } from 'stream';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-absence-form',
@@ -12,24 +11,24 @@ import { EventEmitter } from 'stream';
 })
 export class AbsenceFormComponent implements OnInit {
 
-  @Input() form: FormGroup;
+  @Input() form!: FormGroup;
   @Input() elementId!: number;
+  @Input() userId!: number;
   selectedValue: string = '';
   types = Type;
   isAddMode!: boolean;
 
-  constructor(private absenceSrv: AbsenceService, private route: ActivatedRoute) {
-    this.form = new FormGroup({
-      date_start: new FormControl('', [Validators.required]),
-      date_end: new FormControl('', [Validators.required]),
-      type: new FormControl('', [Validators.required]),
-      reason: new FormControl(''),
-      userId: new FormControl(1)
-    });
+  constructor(private absenceSrv: AbsenceService) {
   }
 
-
   ngOnInit(): void {
+    this.form = new FormGroup({
+      date_start: new FormControl(null, [Validators.required]),
+      date_end: new FormControl(null, [Validators.required]),
+      type: new FormControl(null, [Validators.required]),
+      reason: new FormControl(null),
+      userId: new FormControl(this.userId)
+    });
   }
 
   onSubmit(){
@@ -43,6 +42,7 @@ export class AbsenceFormComponent implements OnInit {
   }
 
   private addAbsence(){
+    // console.log(this.user.id);
     this.absenceSrv.addAbsence(this.form.value).subscribe(absence => {
       console.log(absence);
     });

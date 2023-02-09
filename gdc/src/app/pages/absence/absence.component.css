@@ -2,6 +2,7 @@
   display: flex;
   justify-content: flex-end;
   margin-right: 10%;
+  margin-bottom: 1%;
 }
 
 table {
@@ -20,23 +21,12 @@ table {
 }
 
 .example-sidenav {
-  width: 50%;
+  width: 30%;
   height: 100%;
-  /* border: black solid 2px; */
   display: flex;
-  justify-content: center;
+  background-color:aliceblue;
 }
 
 .example-full-width {
   margin: 0 8px 16px 0;
-}
-
-mat-drawer-container {
-  height: 70%;
-}
-
-#form-auth {
-  /* border: red 1px solid; */
-  justify-content: center;
-  width: 50%;
 }

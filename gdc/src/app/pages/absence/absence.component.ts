@@ -5,6 +5,8 @@ import { AbsenceService } from 'src/app/services/absence/absence.service';
 import { Type } from 'src/app/enums/type';
 import { Status } from 'src/app/enums/status';
 import { ConfirmationDialogComponent } from '../modal/confirmation-dialog/confirmation-dialog.component';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-absence',
@@ -19,11 +21,18 @@ export class AbsenceComponent implements OnInit {
   types = Type;
   selectedValue: string = '';
   parentMessage!: number;
+  user!: any;
+  signInSubscription: Subscription;
 
-  constructor(private absenceSrv: AbsenceService, private dialog: MatDialog) {
+  constructor(private absenceSrv: AbsenceService, private dialog: MatDialog, private authSrv: AuthService) {
+    this.signInSubscription = this.authSrv.signInEvent.subscribe(async () => {
+      this.user = await this.authSrv.getUser();
+    });
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.user = await this.authSrv.getUser();
+
     this.absenceSrv.getAbsences(1).subscribe(absences => {
       this.absences = absences;
       this.dataSource = new MatTableDataSource(this.absences);
@@ -46,10 +55,6 @@ export class AbsenceComponent implements OnInit {
 
   onUpdate(id: number){
     this.parentMessage = id;
-  }
-
-  onDelete(id: number){
-
   }
 
   openDialog(id: number) {

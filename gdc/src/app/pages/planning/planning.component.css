@@ -1,0 +1,9 @@
+div.calendar {
+  display: flex;
+  justify-content: center;
+}
+
+full-calendar {
+  height: 700px;
+  width: 80%;
+}

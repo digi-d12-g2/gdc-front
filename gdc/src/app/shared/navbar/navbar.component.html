@@ -28,7 +28,8 @@
   <span class="example-spacer"></span>
 
   <div class="nameAndLogout">
-    <div>Bonjour {{user.firstname}}</div>
+    <div>Bonjour </div>
+    <div>{{ user.firstname }} {{ user.lastname }}</div>
     <div class="logout" (click)="logout()">Se déconnecter</div>
   </div>
 </mat-toolbar>

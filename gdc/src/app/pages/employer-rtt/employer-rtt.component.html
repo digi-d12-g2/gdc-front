@@ -1,6 +1,6 @@
 <div class="button">
   <button mat-raised-button color="primary" (click)="openAddDialog()">
-    Faire une demande d'absence
+    Ajouter une RTT employeur
   </button>
 </div>
 <mat-drawer-container>
@@ -23,11 +23,6 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="reason">
-        <th mat-header-cell *matHeaderCellDef>Motif</th>
-        <td mat-cell *matCellDef="let element">{{ element.reason }}</td>
-      </ng-container>
-
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef>Statut</th>
         <td mat-cell *matCellDef="let element">
@@ -48,13 +43,12 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
-    <mat-paginator
+    <!-- <mat-paginator
       [pageSizeOptions]="[5, 10, 50]"
       showFirstLastButtons
-    ></mat-paginator>
+    ></mat-paginator> -->
   </div>
 
-  <div class="balance paid-vacations">Solde congés payés : 10</div>
   <div class="balance rtt">Solde RTT : {{ soldeRtt.rtt_available }}</div>
 
   <mat-drawer #drawer class="example-sidenav" mode="side" position="end">

@@ -1,41 +1,52 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { AbsenceService } from 'src/app/services/absence/absence.service';
-import { Type } from 'src/app/enums/type';
-import { Status } from 'src/app/enums/status';
-import { ConfirmationDialogComponent } from '../modal/confirmation-dialog/confirmation-dialog.component';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
-import { AbsenceFormComponent } from './absence-form/absence-form.component';
+import { Status } from 'src/app/enums/status';
+import { Type } from 'src/app/enums/type';
 import { Absence } from 'src/app/models/Absence.model';
+import { AbsenceService } from 'src/app/services/absence/absence.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { ConfirmationDialogComponent } from '../modal/confirmation-dialog/confirmation-dialog.component';
+import { EmployerRttFormComponent } from './employer-rtt-form/employer-rtt-form.component';
 
 @Component({
-  selector: 'app-absence',
-  templateUrl: './absence.component.html',
-  styleUrls: ['./absence.component.css']
+  selector: 'app-employer-rtt',
+  templateUrl: './employer-rtt.component.html',
+  styleUrls: ['./employer-rtt.component.css']
 })
-export class AbsenceComponent implements OnInit {
+export class EmployerRttComponent implements OnInit {
 
-  displayedColumns: string[] = ['date_start', 'date_end', 'type', 'reason', 'status', 'actions'];
+  rttEmployer!: any;
+  displayedColumns: string[] = ['date_start', 'date_end', 'type', 'status', 'actions'];
   dataSource: any;
   absences!: any;
   types = Type;
-  selectedValue: string = '';
-  user!: any;
   signInSubscription: Subscription;
   soldeRtt!: any;
+  user!: any;
 
-  constructor(private absenceSrv: AbsenceService, private dialog: MatDialog, private authSrv: AuthService) {
+  constructor(private absenceSrv: AbsenceService, private authSrv: AuthService, private dialog: MatDialog) {
     this.signInSubscription = this.authSrv.signInEvent.subscribe(async () => {
       this.user = await this.authSrv.getUser();
     });
-  }
+   }
 
   async ngOnInit() {
     this.user = await this.authSrv.getUser();
 
     this.refreshList();
+  }
+
+  refreshList(){
+    this.absenceSrv.getRttEmployer().subscribe(rttEmployer => {
+      this.rttEmployer = rttEmployer;
+      this.dataSource = new MatTableDataSource(this.rttEmployer);
+    });
+
+    this.absenceSrv.getSoldeRttEmployer().subscribe(soldeRtt => {
+      this.soldeRtt = soldeRtt;
+    })
   }
 
   getStringType(type: string){
@@ -53,9 +64,8 @@ export class AbsenceComponent implements OnInit {
   }
 
   openAddDialog(absence?:Absence){
-    const dialogRef = this.dialog.open(AbsenceFormComponent,{
+    const dialogRef = this.dialog.open(EmployerRttFormComponent,{
       data:{
-        userId: this.user.id,
         absence: absence
       }
     });
@@ -68,7 +78,7 @@ export class AbsenceComponent implements OnInit {
   openDeleteDialog(id: number) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent,{
       data:{
-        message: 'Etes-vous sûr de vouloir annuler la demande d\'absence ?',
+        message: 'Etes-vous sûr de vouloir supprimer la demande de RTT employeur ?',
         buttonText: {
           ok: 'Oui',
           cancel: 'Non'
@@ -82,14 +92,4 @@ export class AbsenceComponent implements OnInit {
     });
   }
 
-  refreshList(){
-    this.absenceSrv.getAbsences(this.user.id).subscribe(absences => {
-      this.absences = absences;
-      this.dataSource = new MatTableDataSource(this.absences);
-    });
-
-    this.absenceSrv.getSoldeRttEmployer().subscribe(soldeRtt => {
-      this.soldeRtt = soldeRtt;
-    })
-  }
 }

@@ -18,7 +18,6 @@ export class NavbarComponent implements OnInit {
     // user login event
     this.signInSubscription = this.authSrv.signInEvent.subscribe(async () => {
       this.user = await this.authSrv.getUser();
-      console.log(this.user);
     });
   }
 

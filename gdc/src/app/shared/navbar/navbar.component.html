@@ -11,10 +11,10 @@
   <mat-button-toggle-group name="navbar" aria-label="Navbar">
     <mat-button-toggle value="Planning absences générales">Planning absences générales</mat-button-toggle>
     <mat-button-toggle value="Planning mes absences">Planning mes absences</mat-button-toggle>
-    <mat-button-toggle value="Gestion des absences">Gestion des absences</mat-button-toggle>
-    <mat-button-toggle value="Validation demandes">Validation demandes</mat-button-toggle>
-    <mat-button-toggle value="Vues synthétiques">Vues synthétiques</mat-button-toggle>
-    <mat-button-toggle value="Jours fériés">Jours fériés</mat-button-toggle>
+    <mat-button-toggle value="Gestion des absences" routerLink="/absence">Gestion des absences</mat-button-toggle>
+    <mat-button-toggle value="Validation demandes" routerLink="/management" *ngIf="user.department">Validation demandes</mat-button-toggle>
+    <mat-button-toggle value="Vues synthétiques" *ngIf="user.department">Vues synthétiques</mat-button-toggle>
+    <mat-button-toggle value="Jours fériés" *ngIf="user.isAdmin">Jours fériés</mat-button-toggle>
   </mat-button-toggle-group>
 
 

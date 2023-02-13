@@ -15,6 +15,11 @@ export class AbsenceService {
     return this.http.get(`${environment.API_URL}absences/user/${id}`);
   }
 
+  /** absences */
+  getAbsencesToValidate(id: Number) {
+    return this.http.get(`${environment.API_URL}absences/manager/${id}`);
+  }
+
   addAbsence(absence: Absence){
     return this.http.post(`${environment.API_URL}absences`, absence);
   }
@@ -25,6 +30,14 @@ export class AbsenceService {
 
   deleteAbsence(id: Number){
     return this.http.delete(`${environment.API_URL}absences/${id}`);
+  }
+
+  async confirmAbsence(id: Number){
+    return await this.http.get(`${environment.API_URL}absences/confirm/${id}`).toPromise();
+  }
+
+  async declineAbsence(id: Number){
+    return await this.http.get(`${environment.API_URL}absences/decline/${id}`).toPromise();
   }
 
   /** RTT employeur */

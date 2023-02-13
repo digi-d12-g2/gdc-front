@@ -25,9 +25,10 @@ import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/materia
 import { EmployerRttFormComponent } from './pages/employer-rtt/employer-rtt-form/employer-rtt-form.component';
 import { ConfirmationDialogComponent } from './pages/modal/confirmation-dialog/confirmation-dialog.component';
 import { EmployerRttComponent } from './pages/employer-rtt/employer-rtt.component';
+import { AbsenceManagerComponent } from './pages/absence/absence-manager/absence-manager.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, AbsenceComponent, LayoutComponent, AbsenceFormComponent, ConfirmationDialogComponent, EmployerRttComponent, EmployerRttFormComponent],
+  declarations: [AppComponent, LoginComponent, AbsenceComponent, LayoutComponent, AbsenceFormComponent, ConfirmationDialogComponent, EmployerRttComponent, EmployerRttFormComponent, AbsenceManagerComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

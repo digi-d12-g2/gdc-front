@@ -4,6 +4,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { AbsenceComponent } from './pages/absence/absence.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { EmployerRttComponent } from './pages/employer-rtt/employer-rtt.component';
+import {AbsenceManagerComponent} from "./pages/absence/absence-manager/absence-manager.component";
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
     children: [
       { path: 'auth', component: LoginComponent },
       { path: 'absence', component: AbsenceComponent },
+      { path: 'management', component: AbsenceManagerComponent },
       { path: 'employer_rtt', component: EmployerRttComponent }
     ]
   }

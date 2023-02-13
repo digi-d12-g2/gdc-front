@@ -1,0 +1,14 @@
+
+.idea/
+
+node_modules/ngx-toast/
+
+node_modules/ngx-toastr/esm2020/
+
+node_modules/tslib/
+
+node_modules/ngx-toastr/fesm2015/
+
+node_modules/ngx-toastr/fesm2020/
+
+node_modules/ngx-toastr/

@@ -10,10 +10,6 @@ export class LayoutComponent implements OnInit {
 
   constructor(private router: Router) { }
 
-  isLoginPage() {
-    return this.router.url === '/auth';
-  }
-
   ngOnInit(): void {
   }
 

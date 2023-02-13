@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import {StorageMap} from '@ngx-pwa/local-storage';
 import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
+import {coerceStringArray} from "@angular/cdk/coercion";
 
 @Injectable({
   providedIn: 'root',
@@ -31,11 +32,17 @@ export class AuthService {
   }
 
   getUser() {
-    return localStorage.getItem('user');
+    const user = this.storage.get('user').toPromise();
+    if (user) {
+      return user;
+    } else {
+      this.router.navigate(['/auth']);
+      return null;
+    }
   }
 
   async logout() {
-    await this.storage.delete('user');
+    await this.storage.delete('user').toPromise();
     this.signInEvent.next();
     await this.router.navigate(['/auth']);
   }

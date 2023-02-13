@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar *ngIf="user">
 
   <!-- Admin navbar -->
   <!-- <mat-button-toggle-group name="navbar" aria-label="Navbar">
@@ -28,7 +28,7 @@
   <span class="example-spacer"></span>
 
   <div class="nameAndLogout">
-    <div>Bonjour</div>
+    <div>Bonjour {{user.firstname}}</div>
     <div class="logout" (click)="logout()">Se déconnecter</div>
   </div>
 </mat-toolbar>

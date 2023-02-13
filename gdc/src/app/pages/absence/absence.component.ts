@@ -25,6 +25,7 @@ export class AbsenceComponent implements OnInit {
   user!: any;
   signInSubscription: Subscription;
   soldeRtt!: any;
+  loading: boolean = true;
 
   constructor(private absenceSrv: AbsenceService, private dialog: MatDialog, private authSrv: AuthService) {
     this.signInSubscription = this.authSrv.signInEvent.subscribe(async () => {
@@ -34,8 +35,8 @@ export class AbsenceComponent implements OnInit {
 
   async ngOnInit() {
     this.user = await this.authSrv.getUser();
-
     this.refreshList();
+    this.loading = false;
   }
 
   getStringType(type: string){
@@ -90,6 +91,6 @@ export class AbsenceComponent implements OnInit {
 
     this.absenceSrv.getSoldeRttEmployer().subscribe(soldeRtt => {
       this.soldeRtt = soldeRtt;
-    })
+    });
   }
 }

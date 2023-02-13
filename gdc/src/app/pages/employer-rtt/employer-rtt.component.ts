@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { Status } from 'src/app/enums/status';
@@ -18,24 +19,38 @@ import { EmployerRttFormComponent } from './employer-rtt-form/employer-rtt-form.
 export class EmployerRttComponent implements OnInit {
 
   rttEmployer!: any;
-  displayedColumns: string[] = ['date_start', 'date_end', 'type', 'status', 'actions'];
+  displayedColumns: string[] = ['date_start', 'type'];
   dataSource: any;
   absences!: any;
   types = Type;
   signInSubscription: Subscription;
   soldeRtt!: any;
   user!: any;
+  isAdmin!: boolean;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private absenceSrv: AbsenceService, private authSrv: AuthService, private dialog: MatDialog) {
     this.signInSubscription = this.authSrv.signInEvent.subscribe(async () => {
       this.user = await this.authSrv.getUser();
     });
-   }
+  }
 
   async ngOnInit() {
     this.user = await this.authSrv.getUser();
 
+    this.isAdmin = this.user.is_admin;
+
+    if(this.isAdmin) {
+      this.displayedColumns = ['date_start', 'type', 'status', 'actions'];
+    }
+
     this.refreshList();
+  }
+
+  ngAfterViewInit() {
+    console.log(this.dataSource);
+    this.dataSource.paginator = this.paginator;
   }
 
   refreshList(){

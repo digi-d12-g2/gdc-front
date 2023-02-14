@@ -5,6 +5,7 @@ import { AbsenceComponent } from './pages/absence/absence.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { EmployerRttComponent } from './pages/employer-rtt/employer-rtt.component';
 import { PlanningComponent } from './pages/planning/planning.component';
+import { AbsenceManagerComponent } from './pages/absence/absence-manager/absence-manager.component';
 
 const routes: Routes = [
   {
@@ -14,9 +15,10 @@ const routes: Routes = [
       { path: 'auth', component: LoginComponent },
       { path: 'absence', component: AbsenceComponent },
       { path: 'employer_rtt', component: EmployerRttComponent },
-      { path: 'planning', component: PlanningComponent }
-    ]
-  }
+      { path: 'planning', component: PlanningComponent },
+      { path: 'management', component: AbsenceManagerComponent },
+    ],
+  },
 ];
 
 @NgModule({

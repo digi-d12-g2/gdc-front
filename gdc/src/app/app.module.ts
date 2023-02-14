@@ -32,9 +32,19 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { AbsenceManagerComponent } from './pages/absence/absence-manager/absence-manager.component';
 
 @NgModule({
   declarations: [
+    AppComponent,
+    LoginComponent,
+    AbsenceComponent,
+    LayoutComponent,
+    AbsenceFormComponent,
+    ConfirmationDialogComponent,
+    EmployerRttComponent,
+    EmployerRttFormComponent,
+    AbsenceManagerComponent,
     AppComponent,
     LoginComponent,
     AbsenceComponent,

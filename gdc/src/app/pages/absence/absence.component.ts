@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { AbsenceService } from 'src/app/services/absence/absence.service';
@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { Subscription } from 'rxjs';
 import { AbsenceFormComponent } from './absence-form/absence-form.component';
 import { Absence } from 'src/app/models/Absence.model';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-absence',
@@ -25,6 +26,9 @@ export class AbsenceComponent implements OnInit {
   user!: any;
   signInSubscription: Subscription;
   soldeRtt!: any;
+  loading: boolean = true;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private absenceSrv: AbsenceService, private dialog: MatDialog, private authSrv: AuthService) {
     this.signInSubscription = this.authSrv.signInEvent.subscribe(async () => {
@@ -34,22 +38,21 @@ export class AbsenceComponent implements OnInit {
 
   async ngOnInit() {
     this.user = await this.authSrv.getUser();
-
     this.refreshList();
+    this.loading = false;
+
   }
 
-  getStringType(type: string){
-    const indexOfType = Object.keys(Type).indexOf(type);
-    const valueOfType = Object.values(Type)[indexOfType];
+  refreshList(){
+    this.absenceSrv.getAbsences(this.user.id).subscribe(absences => {
+      this.absences = absences;
+      this.dataSource = new MatTableDataSource(this.absences);
+      this.dataSource.paginator = this.paginator;
+    });
 
-    return valueOfType;
-  }
-
-  getStringStatus(status: string){
-    const indexOfType = Object.keys(Status).indexOf(status);
-    const valueOfType = Object.values(Status)[indexOfType];
-
-    return valueOfType;
+    this.absenceSrv.getSoldeRttEmployer().subscribe(soldeRtt => {
+      this.soldeRtt = soldeRtt;
+    });
   }
 
   openAddDialog(absence?:Absence){
@@ -82,14 +85,18 @@ export class AbsenceComponent implements OnInit {
     });
   }
 
-  refreshList(){
-    this.absenceSrv.getAbsences(this.user.id).subscribe(absences => {
-      this.absences = absences;
-      this.dataSource = new MatTableDataSource(this.absences);
-    });
+  getStringType(type: string){
+    const indexOfType = Object.keys(Type).indexOf(type);
+    const valueOfType = Object.values(Type)[indexOfType];
 
-    this.absenceSrv.getSoldeRttEmployer().subscribe(soldeRtt => {
-      this.soldeRtt = soldeRtt;
-    })
+    return valueOfType;
   }
+
+  getStringStatus(status: string){
+    const indexOfType = Object.keys(Status).indexOf(status);
+    const valueOfType = Object.values(Status)[indexOfType];
+
+    return valueOfType;
+  }
+
 }

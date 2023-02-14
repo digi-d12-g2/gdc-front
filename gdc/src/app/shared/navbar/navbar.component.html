@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar *ngIf="user">
 
   <!-- Admin navbar -->
   <!-- <mat-button-toggle-group name="navbar" aria-label="Navbar">
@@ -9,12 +9,12 @@
 
   <!-- Manager navbar -->
   <mat-button-toggle-group name="navbar" aria-label="Navbar">
-    <mat-button-toggle value="Planning absences générales"><a href="/absence">Planning absences générales</a></mat-button-toggle>
-    <mat-button-toggle value="Planning mes absences"><a href="/planning">Planning mes absences</a></mat-button-toggle>
-    <mat-button-toggle value="Gestion des absences">Gestion des absences</mat-button-toggle>
-    <mat-button-toggle value="Validation demandes">Validation demandes</mat-button-toggle>
-    <mat-button-toggle value="Vues synthétiques">Vues synthétiques</mat-button-toggle>
-    <mat-button-toggle value="Jours fériés">Jours fériés</mat-button-toggle>
+    <mat-button-toggle value="Planning absences générales" *ngIf="user.is_admin || user.department">Planning absences générales</mat-button-toggle>
+    <mat-button-toggle value="Planning mes absences" routerLink="/planning">Planning mes absences</mat-button-toggle>
+    <mat-button-toggle value="Gestion des absences" routerLink="/absence">Gestion des absences</mat-button-toggle>
+    <mat-button-toggle value="Validation demandes" routerLink="/management" *ngIf="user.department">Validation demandes</mat-button-toggle>
+    <mat-button-toggle value="Vues synthétiques" *ngIf="user.department">Vues synthétiques</mat-button-toggle>
+    <mat-button-toggle value="Jours fériés" *ngIf="user.is_admin" routerLink="/employer_rtt">Jours fériés / RTT</mat-button-toggle>
   </mat-button-toggle-group>
 
 
@@ -28,8 +28,7 @@
   <span class="example-spacer"></span>
 
   <div class="nameAndLogout">
-    <div>Bonjour </div>
-    <div>{{ user.firstname }} {{ user.lastname }}</div>
+    <div>Bonjour {{ user.firstname }} {{ user.lastname }}</div>
     <div class="logout" (click)="logout()">Se déconnecter</div>
   </div>
 </mat-toolbar>

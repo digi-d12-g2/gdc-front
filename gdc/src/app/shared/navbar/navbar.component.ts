@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {AuthService} from "../../services/auth/auth.service";
 import {Subscription} from 'rxjs';
 
@@ -29,4 +29,7 @@ export class NavbarComponent implements OnInit {
     this.user = await this.authSrv.getUser();
   }
 
+  ngOnDestroy() {
+    this.signInSubscription.unsubscribe();
+  }
 }

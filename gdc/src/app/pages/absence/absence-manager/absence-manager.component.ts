@@ -78,4 +78,13 @@ export class AbsenceManagerComponent implements OnInit {
       this.refreshList();
     })
   }
+
+  getSimpleDateStart(date: string) {
+    return new Date(date).toLocaleDateString('fr-FR');
+  }
+
+  getSimpleDateEnd(date: string) {
+    return new Date(date).toLocaleDateString('fr-FR');
+  }
+
 }

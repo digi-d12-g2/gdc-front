@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { AbsenceFormComponent } from './absence-form/absence-form.component';
 import { Absence } from 'src/app/models/Absence.model';
 import { MatPaginator } from '@angular/material/paginator';
+import { formatDate, getLocaleDateTimeFormat } from '@angular/common';
 
 @Component({
   selector: 'app-absence',
@@ -97,6 +98,14 @@ export class AbsenceComponent implements OnInit {
     const valueOfType = Object.values(Status)[indexOfType];
 
     return valueOfType;
+  }
+
+  getSimpleDateStart(date: string) {
+    return new Date(date).toLocaleDateString('fr-FR');
+  }
+
+  getSimpleDateEnd(date: string) {
+    return new Date(date).toLocaleDateString('fr-FR');
   }
 
 }

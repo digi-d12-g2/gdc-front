@@ -107,4 +107,8 @@ export class EmployerRttComponent implements OnInit {
     });
   }
 
+  getSimpleDate(date: string) {
+    return new Date(date).toLocaleDateString('fr-FR');
+  }
+
 }

@@ -7,7 +7,6 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class AbsenceService {
-
   constructor(private http: HttpClient) {}
 
   /** absences */
@@ -24,11 +23,11 @@ export class AbsenceService {
     return this.http.post(`${environment.API_URL}absences`, absence);
   }
 
-  updateAbsence(id: Number, absence: Absence){
+  updateAbsence(id: Number, absence: Absence) {
     return this.http.put(`${environment.API_URL}absences/${id}`, absence);
   }
 
-  deleteAbsence(id: Number){
+  deleteAbsence(id: Number) {
     return this.http.delete(`${environment.API_URL}absences/${id}`);
   }
 

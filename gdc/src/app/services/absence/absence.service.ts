@@ -41,12 +41,12 @@ export class AbsenceService {
   }
 
   /** RTT employeur */
-  getRttEmployer(year: Number) {
-    return this.http.get(`${environment.API_URL}absences/rtt_employer/${year}`);
+  getRttEmployerAdmin(year: Number) {
+    return this.http.get(`${environment.API_URL}absences/rtt_employer_admin/${year}`);
   }
 
-  getRttEmployerList() {
-    return this.http.get(`${environment.API_URL}absences/rtt_employer_list`);
+  getRttEmployerEmployee(year: Number) {
+    return this.http.get(`${environment.API_URL}absences/rtt_employer_employee/${year}`);
   }
 
   getSoldeRttEmployer() {

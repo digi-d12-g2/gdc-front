@@ -100,12 +100,4 @@ export class AbsenceComponent implements OnInit {
     return valueOfType;
   }
 
-  getSimpleDateStart(date: string) {
-    return new Date(date).toLocaleDateString('fr-FR');
-  }
-
-  getSimpleDateEnd(date: string) {
-    return new Date(date).toLocaleDateString('fr-FR');
-  }
-
 }

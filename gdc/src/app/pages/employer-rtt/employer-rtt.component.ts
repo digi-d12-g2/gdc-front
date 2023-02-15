@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { Status } from 'src/app/enums/status';
@@ -22,8 +21,7 @@ export class EmployerRttComponent implements OnInit {
 
   rttEmployer!: any;
   publicH!: any;
-  displayedColumns: string[] = ['date_start', 'type'];
-  displayedColumns2: string[] = ['date', 'label'];
+  displayedColumns: string[] = ['date_start', 'type', 'label'];
   dataSource: any;
   dataSource2: any;
   absences!: any;
@@ -35,10 +33,10 @@ export class EmployerRttComponent implements OnInit {
   chosenYearDate!: Date;
   finalTab!: any[];
   selectedYear!: Number;
+  day!: String;
 
-  foods = [ 2021,2022,2023];
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  years = [2021,2022,2023,2024,2025,2026,2027,2028];
+  weekdays = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
 
   constructor(private absenceSrv: AbsenceService, private authSrv: AuthService, private dialog: MatDialog) {
     this.signInSubscription = this.authSrv.signInEvent.subscribe(async () => {
@@ -55,31 +53,35 @@ export class EmployerRttComponent implements OnInit {
       this.displayedColumns = ['date_start', 'type', 'status', 'label', 'actions'];
     }
 
-    this.selectedYear = this.foods[2];
+    this.selectedYear = this.years[2];
     this.refreshList(this.selectedYear);
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
   }
 
   refreshList(year: Number){
     if(this.isAdmin){
-      this.absenceSrv.getRttEmployer(year).subscribe(rttEmployer => {
+      this.absenceSrv.getRttEmployerAdmin(year).subscribe(rttEmployer => {
         this.rttEmployer = rttEmployer;
+
+        // Object.values<Absence>(this.rttEmployer).forEach(value => {
+        //   const date = new Date(value.date_start);
+        //   this.day = this.weekday[date.getDay()];
+        //   console.log(this.day);
+        // });
 
         this.absenceSrv.getPublicHolidays(year).subscribe(publicH => {
           this.publicH = publicH;
-
           this.finalTab = [...this.rttEmployer, ...this.publicH];
           this.dataSource = new MatTableDataSource(this.finalTab);
-
         });
       });
     } else {
-      this.absenceSrv.getRttEmployerList().subscribe(rttEmployer => {
+      this.absenceSrv.getRttEmployerEmployee(year).subscribe(rttEmployer => {
         this.rttEmployer = rttEmployer;
-        this.dataSource = new MatTableDataSource(this.rttEmployer);
+        this.absenceSrv.getPublicHolidays(year).subscribe(publicH => {
+          this.publicH = publicH;
+          this.finalTab = [...this.rttEmployer, ...this.publicH];
+          this.dataSource = new MatTableDataSource(this.finalTab);
+        });
       });
     }
 
@@ -142,10 +144,6 @@ export class EmployerRttComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.refreshList(this.selectedYear);
     });
-  }
-
-  getSimpleDate(date: string) {
-    return new Date(date).toLocaleDateString('fr-FR');
   }
 
 }

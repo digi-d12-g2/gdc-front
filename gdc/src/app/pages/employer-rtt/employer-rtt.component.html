@@ -12,11 +12,12 @@
 <mat-form-field appearance="fill">
   <mat-label>Selectionnez une année</mat-label>
   <mat-select [(ngModel)]="selectedYear" name="year" matNativeControl (ngModelChange)="refreshList(selectedYear)">
-    <mat-option *ngFor="let food of foods" [value]="food">
-      {{food}}
+    <mat-option *ngFor="let year of years" [value]="year">
+      {{year}}
     </mat-option>
   </mat-select>
 </mat-form-field>
+
 
 <mat-drawer-container>
   <div class="mat-elevation-z8">
@@ -25,10 +26,10 @@
         <th mat-header-cell *matHeaderCellDef>Date</th>
         <td mat-cell *matCellDef="let element">
           <p *ngIf="element.date_start">
-          {{ getSimpleDate(element.date_start) }}
+          {{ element.date_start | date:'fullDate' }}
           </p>
           <p *ngIf="element.date">
-            {{ getSimpleDate(element.date) }}
+            {{ element.date | date:'fullDate' }}
             </p>
         </td>
       </ng-container>

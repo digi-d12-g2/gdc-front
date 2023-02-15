@@ -38,6 +38,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let element">
+<<<<<<< Updated upstream
           <mat-icon
             *ngIf="
               element.status === 'INITIALE' || element.status === 'REJETEE'
@@ -53,6 +54,12 @@
           <mat-icon (click)="openDeleteDialog(element.id)"
             >delete_outline</mat-icon
           >
+=======
+          <mat-icon *ngIf="element.status === 'INITIALE' || element.status === 'REJETEE'"
+            (click)="openAddDialog(element)">edit</mat-icon>
+          <mat-icon *ngIf="element.status !== 'INITIALE' && element.status !== 'REJETEE'"></mat-icon>
+          <mat-icon (click)="openDeleteDialog(element.id)">delete_outline</mat-icon>
+>>>>>>> Stashed changes
         </td>
       </ng-container>
 
@@ -72,6 +79,9 @@
     {{ soldeRtt.rtt_available }} employeur)
   </div>
 
+<<<<<<< Updated upstream
   <mat-drawer #drawer class="example-sidenav" mode="side" position="end">
   </mat-drawer>
+=======
+>>>>>>> Stashed changes
 </mat-drawer-container>

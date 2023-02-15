@@ -6,10 +6,12 @@ import { Subscription } from 'rxjs';
 import { Status } from 'src/app/enums/status';
 import { Type } from 'src/app/enums/type';
 import { Absence } from 'src/app/models/Absence.model';
+import { PublicHoliday } from 'src/app/models/PublicHoliday.model';
 import { AbsenceService } from 'src/app/services/absence/absence.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ConfirmationDialogComponent } from '../modal/confirmation-dialog/confirmation-dialog.component';
 import { EmployerRttFormComponent } from './employer-rtt-form/employer-rtt-form.component';
+import { PublicHolidayFormComponent } from './public-holiday-form/public-holiday-form.component';
 
 @Component({
   selector: 'app-employer-rtt',
@@ -19,14 +21,18 @@ import { EmployerRttFormComponent } from './employer-rtt-form/employer-rtt-form.
 export class EmployerRttComponent implements OnInit {
 
   rttEmployer!: any;
+  publicH!: any;
   displayedColumns: string[] = ['date_start', 'type'];
+  displayedColumns2: string[] = ['date', 'label'];
   dataSource: any;
+  dataSource2: any;
   absences!: any;
   types = Type;
   signInSubscription: Subscription;
   soldeRtt!: any;
   user!: any;
   isAdmin!: boolean;
+  chosenYearDate!: Date;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -54,14 +60,30 @@ export class EmployerRttComponent implements OnInit {
   }
 
   refreshList(){
-    this.absenceSrv.getRttEmployer().subscribe(rttEmployer => {
-      this.rttEmployer = rttEmployer;
-      this.dataSource = new MatTableDataSource(this.rttEmployer);
-    });
+    if(this.isAdmin){
+      this.absenceSrv.getRttEmployer().subscribe(rttEmployer => {
+        this.rttEmployer = rttEmployer;
+        this.dataSource = new MatTableDataSource(this.rttEmployer);
+      });
+    } else {
+      this.absenceSrv.getRttEmployerList().subscribe(rttEmployer => {
+        this.rttEmployer = rttEmployer;
+        this.dataSource = new MatTableDataSource(this.rttEmployer);
+      });
+    }
+
 
     this.absenceSrv.getSoldeRttEmployer().subscribe(soldeRtt => {
       this.soldeRtt = soldeRtt;
     })
+  }
+
+  chooseYear(year: Number){
+    this.absenceSrv.getPublicHolidays(year).subscribe(publicH => {
+      this.publicH = publicH;
+      this.dataSource2 = new MatTableDataSource(this.publicH);
+    });
+
   }
 
   getStringType(type: string){
@@ -82,6 +104,18 @@ export class EmployerRttComponent implements OnInit {
     const dialogRef = this.dialog.open(EmployerRttFormComponent,{
       data:{
         absence: absence
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.refreshList();
+    });
+  }
+
+  openAddPhDialog(publicHoliday?:PublicHoliday){
+    const dialogRef = this.dialog.open(PublicHolidayFormComponent,{
+      data:{
+        publicHoliday: publicHoliday
       }
     });
 

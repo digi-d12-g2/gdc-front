@@ -33,6 +33,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { AbsenceManagerComponent } from './pages/absence/absence-manager/absence-manager.component';
+import { PublicHolidayFormComponent } from './pages/employer-rtt/public-holiday-form/public-holiday-form.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,10 @@ import { AbsenceManagerComponent } from './pages/absence/absence-manager/absence
     EmployerRttComponent,
     EmployerRttFormComponent,
     PlanningComponent,
+<<<<<<< Updated upstream
+=======
+    PublicHolidayFormComponent,
+>>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,
@@ -78,9 +83,14 @@ import { AbsenceManagerComponent } from './pages/absence/absence-manager/absence
     MatCardModule,
   ],
   providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
     { provide: MAT_DIALOG_DATA, useValue: {} },
+<<<<<<< Updated upstream
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DATE_LOCALE, useValue: 'fr' },
+=======
+    { provide: MatDialogRef, useValue: {} }
+>>>>>>> Stashed changes
   ],
   bootstrap: [AppComponent],
 })

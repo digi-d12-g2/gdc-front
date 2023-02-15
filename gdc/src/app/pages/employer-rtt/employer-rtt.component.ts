@@ -33,6 +33,10 @@ export class EmployerRttComponent implements OnInit {
   user!: any;
   isAdmin!: boolean;
   chosenYearDate!: Date;
+  finalTab!: any[];
+  selectedYear!: Number;
+
+  foods = [ 2021,2022,2023];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -48,22 +52,29 @@ export class EmployerRttComponent implements OnInit {
     this.isAdmin = this.user.is_admin;
 
     if(this.isAdmin) {
-      this.displayedColumns = ['date_start', 'type', 'status', 'actions'];
+      this.displayedColumns = ['date_start', 'type', 'status', 'label', 'actions'];
     }
 
-    this.refreshList();
+    this.selectedYear = this.foods[2];
+    this.refreshList(this.selectedYear);
   }
 
   ngAfterViewInit() {
-    console.log(this.dataSource);
     this.dataSource.paginator = this.paginator;
   }
 
-  refreshList(){
+  refreshList(year: Number){
     if(this.isAdmin){
-      this.absenceSrv.getRttEmployer().subscribe(rttEmployer => {
+      this.absenceSrv.getRttEmployer(year).subscribe(rttEmployer => {
         this.rttEmployer = rttEmployer;
-        this.dataSource = new MatTableDataSource(this.rttEmployer);
+
+        this.absenceSrv.getPublicHolidays(year).subscribe(publicH => {
+          this.publicH = publicH;
+
+          this.finalTab = [...this.rttEmployer, ...this.publicH];
+          this.dataSource = new MatTableDataSource(this.finalTab);
+
+        });
       });
     } else {
       this.absenceSrv.getRttEmployerList().subscribe(rttEmployer => {
@@ -76,14 +87,6 @@ export class EmployerRttComponent implements OnInit {
     this.absenceSrv.getSoldeRttEmployer().subscribe(soldeRtt => {
       this.soldeRtt = soldeRtt;
     })
-  }
-
-  chooseYear(year: Number){
-    this.absenceSrv.getPublicHolidays(year).subscribe(publicH => {
-      this.publicH = publicH;
-      this.dataSource2 = new MatTableDataSource(this.publicH);
-    });
-
   }
 
   getStringType(type: string){
@@ -108,7 +111,7 @@ export class EmployerRttComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.refreshList();
+      this.refreshList(this.selectedYear);
     });
   }
 
@@ -120,7 +123,7 @@ export class EmployerRttComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.refreshList();
+      this.refreshList(this.selectedYear);
     });
   }
 
@@ -137,7 +140,7 @@ export class EmployerRttComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.refreshList();
+      this.refreshList(this.selectedYear);
     });
   }
 

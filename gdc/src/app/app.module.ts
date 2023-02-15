@@ -55,10 +55,7 @@ import { PublicHolidayFormComponent } from './pages/employer-rtt/public-holiday-
     EmployerRttComponent,
     EmployerRttFormComponent,
     PlanningComponent,
-<<<<<<< Updated upstream
-=======
-    PublicHolidayFormComponent,
->>>>>>> Stashed changes
+    PublicHolidayFormComponent
   ],
   imports: [
     BrowserModule,
@@ -85,12 +82,7 @@ import { PublicHolidayFormComponent } from './pages/employer-rtt/public-holiday-
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
     { provide: MAT_DIALOG_DATA, useValue: {} },
-<<<<<<< Updated upstream
-    { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DATE_LOCALE, useValue: 'fr' },
-=======
     { provide: MatDialogRef, useValue: {} }
->>>>>>> Stashed changes
   ],
   bootstrap: [AppComponent],
 })

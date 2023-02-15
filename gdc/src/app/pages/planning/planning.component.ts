@@ -15,10 +15,7 @@ export class PlanningComponent implements OnInit {
     plugins: [dayGridPlugin],
     initialView: 'dayGridMonth',
     weekends: false,
-<<<<<<< Updated upstream
     eventDidMount: this.eventDidMount.bind(this)
-=======
->>>>>>> Stashed changes
   };
   signInSubscription: Subscription;
   user!: any;
@@ -44,15 +41,11 @@ export class PlanningComponent implements OnInit {
           title: data[i][1]['type'],
           start: new Date(data[i][1]['date_start']),
           end: new Date(data[i][1]['date_end']),
-<<<<<<< Updated upstream
           className: data[i][1]['type']
-=======
->>>>>>> Stashed changes
         });
       }
     });
   }
-<<<<<<< Updated upstream
 
   eventDidMount(info: any) {
     const event = info.event;
@@ -73,6 +66,4 @@ export class PlanningComponent implements OnInit {
       titleElement.innerHTML = event.title;
     }
   }
-=======
->>>>>>> Stashed changes
 }

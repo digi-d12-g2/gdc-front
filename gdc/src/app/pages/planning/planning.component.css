@@ -7,3 +7,15 @@ full-calendar {
   height: 700px;
   width: 80%;
 }
+
+.event-sans-solde {
+  background-color: lightsalmon;
+}
+
+.event-rtt-employe {
+  background-color: green;
+}
+
+.event-rtt-employeur {
+  background-color: magenta;
+}

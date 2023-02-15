@@ -15,6 +15,7 @@ export class PlanningComponent implements OnInit {
     plugins: [dayGridPlugin],
     initialView: 'dayGridMonth',
     weekends: false,
+    eventDidMount: this.eventDidMount.bind(this)
   };
   signInSubscription: Subscription;
   user!: any;
@@ -40,8 +41,29 @@ export class PlanningComponent implements OnInit {
           title: data[i][1]['type'],
           start: new Date(data[i][1]['date_start']),
           end: new Date(data[i][1]['date_end']),
+          className: data[i][1]['type']
         });
       }
     });
+  }
+
+  eventDidMount(info: any) {
+    const event = info.event;
+    const element = info.el;
+    switch (event.title) {
+      case 'CONGES_SANS_SOLDE':
+        element.style.backgroundColor = 'IndianRed';
+        break;
+      case 'RTT_EMPLOYE':
+        element.style.backgroundColor = 'LightGreen';
+        break;
+      case 'RTT_EMPLOYEUR':
+        element.style.backgroundColor = 'MediumOrchid';
+        break;
+    }
+    const titleElement = element.querySelector('.fc-title');
+    if (titleElement) {
+      titleElement.innerHTML = event.title;
+    }
   }
 }

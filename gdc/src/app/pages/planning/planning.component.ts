@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { PlanningService } from 'src/app/services/planning/planning.service';
 import { Subscription } from 'rxjs';
+import {AbsenceService} from "../../services/absence/absence.service";
 
 @Component({
   selector: 'app-planning',
@@ -21,7 +21,7 @@ export class PlanningComponent implements OnInit {
   user!: any;
 
   constructor(
-    private planningSrv: PlanningService,
+    private absenceSrv: AbsenceService,
     private authSrv: AuthService
   ) {
     this.signInSubscription = this.authSrv.signInEvent.subscribe(async () => {
@@ -31,7 +31,7 @@ export class PlanningComponent implements OnInit {
 
   async ngOnInit() {
     this.user = await this.authSrv.getUser();
-    this.planningSrv.getAbsenceFromUser(this.user.id).subscribe((res) => {
+    this.absenceSrv.getAbsencesFromUser(this.user.id).subscribe((res) => {
       this.calendarOptions.events = [];
       const data = Object.entries(res).map((val: any) => {
         return val;

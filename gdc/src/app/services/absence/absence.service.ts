@@ -19,6 +19,10 @@ export class AbsenceService {
     return this.http.get(`${environment.API_URL}absences/manager/${id}`);
   }
 
+  getAbsencesFromUser(id: Number) {
+    return this.http.get(`${environment.API_URL}absences/user/${id}`);
+  }
+
   addAbsence(absence: Absence){
     return this.http.post(`${environment.API_URL}absences`, absence);
   }

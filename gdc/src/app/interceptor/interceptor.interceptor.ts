@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {AlertService} from '../services/alert/alert.service';
-import {catchError, map} from 'rxjs/operators';
 import {
   HttpRequest,
   HttpHandler,

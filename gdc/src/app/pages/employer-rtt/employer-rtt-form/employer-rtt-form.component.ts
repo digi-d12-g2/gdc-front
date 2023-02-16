@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Type } from 'src/app/enums/type';
 import { Absence } from 'src/app/models/Absence.model';
 import { AbsenceService } from 'src/app/services/absence/absence.service';
+import { DatesService } from 'src/app/services/dates/dates.service';
 
 @Component({
   selector: 'app-employer-rtt-form',
@@ -18,7 +19,8 @@ export class EmployerRttFormComponent implements OnInit {
 
   constructor(private absenceSrv: AbsenceService,
     @Inject(MAT_DIALOG_DATA) private data: any,
-    private dialogRef: MatDialogRef<EmployerRttFormComponent>) {
+    private dialogRef: MatDialogRef<EmployerRttFormComponent>,
+    private datesSrv: DatesService) {
       this.absence = data.absence?data.absence:new Absence;
   }
 
@@ -34,6 +36,8 @@ export class EmployerRttFormComponent implements OnInit {
 
   onSubmit(){
     this.form.value.date_end = this.form.value.date_start;
+
+    this.datesSrv.transformDate(this.form);
 
     if (this.isAddMode) {
       this.addAbsence();

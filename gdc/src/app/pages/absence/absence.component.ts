@@ -39,6 +39,8 @@ export class AbsenceComponent implements OnInit {
 
   async ngOnInit() {
     this.user = await this.authSrv.getUser();
+    // this.user.vacations_avalaible = 5;
+    // this.authSrv.storeUser(this.user);
     this.refreshList();
     this.loading = false;
   }

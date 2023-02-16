@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PublicHoliday } from 'src/app/models/PublicHoliday.model';
 import { AbsenceService } from 'src/app/services/absence/absence.service';
+import { DatesService } from 'src/app/services/dates/dates.service';
 
 @Component({
   selector: 'app-public-holiday-form',
@@ -17,7 +18,8 @@ export class PublicHolidayFormComponent implements OnInit {
 
   constructor(private absenceSrv: AbsenceService,
     @Inject(MAT_DIALOG_DATA) private data: any,
-    private dialogRef: MatDialogRef<PublicHolidayFormComponent>) {
+    private dialogRef: MatDialogRef<PublicHolidayFormComponent>,
+    private datesSrv: DatesService) {
       this.publicHoliday = data.publicHoliday?data.publicHoliday:new PublicHoliday;
   }
 
@@ -31,6 +33,8 @@ export class PublicHolidayFormComponent implements OnInit {
   }
 
   onSubmit(){
+    this.datesSrv.transformDate(this.form);
+
     if (this.isAddMode) {
       this.addPublicHoliday();
     } else {

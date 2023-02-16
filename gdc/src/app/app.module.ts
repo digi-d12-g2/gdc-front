@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -33,6 +33,9 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { AbsenceManagerComponent } from './pages/absence/absence-manager/absence-manager.component';
+import { PublicHolidayFormComponent } from './pages/employer-rtt/public-holiday-form/public-holiday-form.component';
+import { registerLocaleData } from '@angular/common';
+import * as fr from '@angular/common/locales/fr';
 
 @NgModule({
   declarations: [
@@ -54,6 +57,7 @@ import { AbsenceManagerComponent } from './pages/absence/absence-manager/absence
     EmployerRttComponent,
     EmployerRttFormComponent,
     PlanningComponent,
+    PublicHolidayFormComponent
   ],
   imports: [
     BrowserModule,
@@ -78,10 +82,15 @@ import { AbsenceManagerComponent } from './pages/absence/absence-manager/absence
     MatCardModule,
   ],
   providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DATE_LOCALE, useValue: 'fr' },
+    { provide: LOCALE_ID, useValue: 'fr-FR'}
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    registerLocaleData(fr.default);
+  }
+}

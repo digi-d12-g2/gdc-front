@@ -41,7 +41,6 @@ export class AbsenceComponent implements OnInit {
     this.user = await this.authSrv.getUser();
     this.refreshList();
     this.loading = false;
-
   }
 
   refreshList(){
@@ -98,14 +97,6 @@ export class AbsenceComponent implements OnInit {
     const valueOfType = Object.values(Status)[indexOfType];
 
     return valueOfType;
-  }
-
-  getSimpleDateStart(date: string) {
-    return new Date(date).toLocaleDateString('fr-FR');
-  }
-
-  getSimpleDateEnd(date: string) {
-    return new Date(date).toLocaleDateString('fr-FR');
   }
 
 }

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Absence } from 'src/app/models/Absence.model';
+import { PublicHoliday } from 'src/app/models/PublicHoliday.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -44,11 +45,28 @@ export class AbsenceService {
   }
 
   /** RTT employeur */
-  getRttEmployer() {
-    return this.http.get(`${environment.API_URL}absences/rtt_employer`);
+  getRttEmployerAdmin(year: Number) {
+    return this.http.get(`${environment.API_URL}absences/rtt_employer_admin/${year}`);
+  }
+
+  getRttEmployerEmployee(year: Number) {
+    return this.http.get(`${environment.API_URL}absences/rtt_employer_employee/${year}`);
   }
 
   getSoldeRttEmployer() {
     return this.http.get(`${environment.API_URL}rtt_employer`);
+  }
+
+  /** jours fériés */
+  getPublicHolidays(year: Number) {
+    return this.http.get(`${environment.API_URL}public-holidays/${year}`);
+  }
+
+  addPublicHoliday(publicHoliday: PublicHoliday){
+    return this.http.post(`${environment.API_URL}public-holidays`, publicHoliday);
+  }
+
+  deletePublicHoliday(id: Number){
+    return this.http.delete(`${environment.API_URL}public-holidays/${id}`);
   }
 }

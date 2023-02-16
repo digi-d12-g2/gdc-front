@@ -3,25 +3,70 @@
     Ajouter une RTT employeur
   </button>
 </div>
+<div *ngIf="isAdmin" class="button">
+  <button mat-raised-button color="primary" (click)="openAddPhDialog()">
+    Ajouter un jour férié
+  </button>
+</div>
+
+<mat-form-field appearance="fill">
+  <mat-label>Selectionnez une année</mat-label>
+  <mat-select [(ngModel)]="selectedYear" name="year" matNativeControl (ngModelChange)="refreshList(selectedYear)">
+    <mat-option *ngFor="let year of years" [value]="year">
+      {{year}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+
 <mat-drawer-container>
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="date_start">
         <th mat-header-cell *matHeaderCellDef>Date</th>
-        <td mat-cell *matCellDef="let element">{{ getSimpleDate(element.date_start) }}</td>
+        <td mat-cell *matCellDef="let element">
+          <p *ngIf="element.date_start">
+          {{ element.date_start | date:'fullDate' }}
+          </p>
+          <p *ngIf="element.date">
+            {{ element.date | date:'fullDate' }}
+            </p>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef>Type</th>
         <td mat-cell *matCellDef="let element">
+          <p *ngIf="element.type">
           {{ getStringType(element.type) }}
+          </p>
+          <p *ngIf="!element.type">
+            Jour férié
+          </p>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef>Statut</th>
         <td mat-cell *matCellDef="let element">
+          <p *ngIf="element.status">
           {{ getStringStatus(element.status) }}
+          </p>
+          <p *ngIf="!element.status">
+            -
+          </p>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="label">
+        <th mat-header-cell *matHeaderCellDef>Libellé</th>
+        <td mat-cell *matCellDef="let element">
+        <p *ngIf="element.label">
+          {{ element.label }}
+        </p>
+        <p *ngIf="!element.label">
+          -
+        </p>
         </td>
       </ng-container>
 
@@ -30,22 +75,14 @@
         <td mat-cell *matCellDef="let element">
           <mat-icon *ngIf="element.status === 'INITIALE' || element.status === 'REJETEE'" (click)="openAddDialog(element)">edit</mat-icon>
           <mat-icon *ngIf="element.status !== 'INITIALE' && element.status !== 'REJETEE'" ></mat-icon>
-          <mat-icon (click)="openDeleteDialog(element.id)">delete_outline</mat-icon>
+          <mat-icon (click)="openDeleteDialog(element.id, element.label)">delete_outline</mat-icon>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+    <div class="balance rtt">Solde RTT : {{ soldeRtt.rtt_available }}</div>
 
-    <mat-paginator #paginator
-    [pageSize]="10"
-    [pageSizeOptions]="[5, 10, 20]">
-    </mat-paginator>
   </div>
-
-  <div class="balance rtt">Solde RTT : {{ soldeRtt.rtt_available }}</div>
-
-  <mat-drawer #drawer class="example-sidenav" mode="side" position="end">
-  </mat-drawer>
 </mat-drawer-container>

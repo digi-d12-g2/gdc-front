@@ -13,6 +13,7 @@ export class ConfirmationDialogComponent {
   confirmButtonText = "Oui"
   cancelButtonText = "Non"
   id!: number;
+  type!: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -27,14 +28,24 @@ export class ConfirmationDialogComponent {
         }
       }
       this.id = data.id;
+      this.type = data.type;
   }
 
   onConfirmClick(): void {
     this.dialogRef.close(true);
-    this.absenceSrv.deleteAbsence(this.id).subscribe(result => {
-      console.log(result);
-      location.reload();
-    });
+
+    if(this.type !== undefined){
+      this.absenceSrv.deletePublicHoliday(this.id).subscribe(result => {
+        console.log(result);
+        location.reload();
+      });
+    } else {
+      this.absenceSrv.deleteAbsence(this.id).subscribe(result => {
+        console.log(result);
+        location.reload();
+      });
+    }
+
   }
 
 }

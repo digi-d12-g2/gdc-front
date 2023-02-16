@@ -1,0 +1,22 @@
+<form id="form-auth" [formGroup]="form" (submit)="onSubmit()">
+  <h1>Ajout d'un jour férié</h1>
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Entrer une date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-hint>JJ/MM/AAAA</mat-hint>
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Libellé</mat-label>
+      <input matInput placeholder="Jour de l'an..." formControlName="label"/>
+    </mat-form-field>
+  </p>
+  <button mat-raised-button>Ajouter</button>
+</form>

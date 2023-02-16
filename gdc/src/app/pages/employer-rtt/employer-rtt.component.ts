@@ -1,15 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { Status } from 'src/app/enums/status';
 import { Type } from 'src/app/enums/type';
 import { Absence } from 'src/app/models/Absence.model';
+import { PublicHoliday } from 'src/app/models/PublicHoliday.model';
 import { AbsenceService } from 'src/app/services/absence/absence.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ConfirmationDialogComponent } from '../modal/confirmation-dialog/confirmation-dialog.component';
 import { EmployerRttFormComponent } from './employer-rtt-form/employer-rtt-form.component';
+import { PublicHolidayFormComponent } from './public-holiday-form/public-holiday-form.component';
 
 @Component({
   selector: 'app-employer-rtt',
@@ -19,16 +20,23 @@ import { EmployerRttFormComponent } from './employer-rtt-form/employer-rtt-form.
 export class EmployerRttComponent implements OnInit {
 
   rttEmployer!: any;
-  displayedColumns: string[] = ['date_start', 'type'];
+  publicH!: any;
+  displayedColumns: string[] = ['date_start', 'type', 'label'];
   dataSource: any;
+  dataSource2: any;
   absences!: any;
   types = Type;
   signInSubscription: Subscription;
   soldeRtt!: any;
   user!: any;
   isAdmin!: boolean;
+  chosenYearDate!: Date;
+  finalTab!: any[];
+  selectedYear!: Number;
+  day!: String;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  years = [2021,2022,2023,2024,2025,2026,2027,2028];
+  weekdays = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
 
   constructor(private absenceSrv: AbsenceService, private authSrv: AuthService, private dialog: MatDialog) {
     this.signInSubscription = this.authSrv.signInEvent.subscribe(async () => {
@@ -42,22 +50,41 @@ export class EmployerRttComponent implements OnInit {
     this.isAdmin = this.user.is_admin;
 
     if(this.isAdmin) {
-      this.displayedColumns = ['date_start', 'type', 'status', 'actions'];
+      this.displayedColumns = ['date_start', 'type', 'status', 'label', 'actions'];
     }
 
-    this.refreshList();
+    this.selectedYear = this.years[2];
+    this.refreshList(this.selectedYear);
   }
 
-  ngAfterViewInit() {
-    console.log(this.dataSource);
-    this.dataSource.paginator = this.paginator;
-  }
+  refreshList(year: Number){
+    if(this.isAdmin){
+      this.absenceSrv.getRttEmployerAdmin(year).subscribe(rttEmployer => {
+        this.rttEmployer = rttEmployer;
 
-  refreshList(){
-    this.absenceSrv.getRttEmployer().subscribe(rttEmployer => {
-      this.rttEmployer = rttEmployer;
-      this.dataSource = new MatTableDataSource(this.rttEmployer);
-    });
+        // Object.values<Absence>(this.rttEmployer).forEach(value => {
+        //   const date = new Date(value.date_start);
+        //   this.day = this.weekday[date.getDay()];
+        //   console.log(this.day);
+        // });
+
+        this.absenceSrv.getPublicHolidays(year).subscribe(publicH => {
+          this.publicH = publicH;
+          this.finalTab = [...this.rttEmployer, ...this.publicH];
+          this.dataSource = new MatTableDataSource(this.finalTab);
+        });
+      });
+    } else {
+      this.absenceSrv.getRttEmployerEmployee(year).subscribe(rttEmployer => {
+        this.rttEmployer = rttEmployer;
+        this.absenceSrv.getPublicHolidays(year).subscribe(publicH => {
+          this.publicH = publicH;
+          this.finalTab = [...this.rttEmployer, ...this.publicH];
+          this.dataSource = new MatTableDataSource(this.finalTab);
+        });
+      });
+    }
+
 
     this.absenceSrv.getSoldeRttEmployer().subscribe(soldeRtt => {
       this.soldeRtt = soldeRtt;
@@ -86,29 +113,38 @@ export class EmployerRttComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.refreshList();
+      this.refreshList(this.selectedYear);
     });
   }
 
-  openDeleteDialog(id: number) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,{
+  openAddPhDialog(publicHoliday?:PublicHoliday){
+    const dialogRef = this.dialog.open(PublicHolidayFormComponent,{
       data:{
-        message: 'Etes-vous sûr de vouloir supprimer la demande de RTT employeur ?',
-        buttonText: {
-          ok: 'Oui',
-          cancel: 'Non'
-        },
-        id: id
+        publicHoliday: publicHoliday
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.refreshList();
+      this.refreshList(this.selectedYear);
     });
   }
 
-  getSimpleDate(date: string) {
-    return new Date(date).toLocaleDateString('fr-FR');
+  openDeleteDialog(id: number, type: String) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,{
+      data:{
+        message: 'Etes-vous sûr de vouloir supprimer ?',
+        buttonText: {
+          ok: 'Oui',
+          cancel: 'Non'
+        },
+        id: id,
+        type: type
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.refreshList(this.selectedYear);
+    });
   }
 
 }

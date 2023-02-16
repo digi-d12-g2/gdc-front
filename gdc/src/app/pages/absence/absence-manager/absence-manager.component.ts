@@ -79,12 +79,4 @@ export class AbsenceManagerComponent implements OnInit {
     })
   }
 
-  getSimpleDateStart(date: string) {
-    return new Date(date).toLocaleDateString('fr-FR');
-  }
-
-  getSimpleDateEnd(date: string) {
-    return new Date(date).toLocaleDateString('fr-FR');
-  }
-
 }

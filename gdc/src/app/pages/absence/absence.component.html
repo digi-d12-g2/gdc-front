@@ -8,12 +8,12 @@
     <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="date_start">
         <th mat-header-cell *matHeaderCellDef>Date de début</th>
-        <td mat-cell *matCellDef="let element">{{ getSimpleDateStart(element.date_start) }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.date_start | date:'shortDate' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="date_end">
         <th mat-header-cell *matHeaderCellDef>Date de fin</th>
-        <td mat-cell *matCellDef="let element">{{ getSimpleDateEnd(element.date_end) }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.date_end | date:'shortDate' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="type">
@@ -38,21 +38,10 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let element">
-          <mat-icon
-            *ngIf="
-              element.status === 'INITIALE' || element.status === 'REJETEE'
-            "
-            (click)="openAddDialog(element)"
-            >edit</mat-icon
-          >
-          <mat-icon
-            *ngIf="
-              element.status !== 'INITIALE' && element.status !== 'REJETEE'
-            "
-          ></mat-icon>
-          <mat-icon (click)="openDeleteDialog(element.id)"
-            >delete_outline</mat-icon
-          >
+          <mat-icon *ngIf="element.status === 'INITIALE' || element.status === 'REJETEE'"
+            (click)="openAddDialog(element)">edit</mat-icon>
+          <mat-icon *ngIf="element.status !== 'INITIALE' && element.status !== 'REJETEE'"></mat-icon>
+          <mat-icon (click)="openDeleteDialog(element.id)">delete_outline</mat-icon>
         </td>
       </ng-container>
 
@@ -72,6 +61,4 @@
     {{ soldeRtt.rtt_available }} employeur)
   </div>
 
-  <mat-drawer #drawer class="example-sidenav" mode="side" position="end">
-  </mat-drawer>
 </mat-drawer-container>

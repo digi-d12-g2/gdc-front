@@ -8,14 +8,10 @@ full-calendar {
   width: 80%;
 }
 
-.event-sans-solde {
-  background-color: lightsalmon;
-}
-
-.event-rtt-employe {
-  background-color: green;
-}
-
-.event-rtt-employeur {
-  background-color: magenta;
+.balance {
+  border: solid 1px;
+  width: fit-content;
+  padding: 5px;
+  margin-left: 10%;
+  margin-top: 1%;
 }

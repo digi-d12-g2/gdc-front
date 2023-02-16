@@ -14,7 +14,7 @@
     <mat-button-toggle value="Gestion des absences" routerLink="/absence">Gestion des absences</mat-button-toggle>
     <mat-button-toggle value="Validation demandes" routerLink="/management" *ngIf="user.department">Validation demandes</mat-button-toggle>
     <mat-button-toggle value="Vues synthétiques" *ngIf="user.department">Vues synthétiques</mat-button-toggle>
-    <mat-button-toggle value="Jours fériés" *ngIf="user.is_admin" routerLink="/employer_rtt">Jours fériés / RTT</mat-button-toggle>
+    <mat-button-toggle value="Jours fériés" routerLink="/employer_rtt">Jours fériés / RTT</mat-button-toggle>
   </mat-button-toggle-group>
 
 

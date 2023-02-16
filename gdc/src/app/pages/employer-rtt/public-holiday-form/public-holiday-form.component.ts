@@ -22,19 +22,32 @@ export class PublicHolidayFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isAddMode = !this.publicHoliday.id;
+
     this.form = new FormGroup({
-      date: new FormControl(null, [Validators.required]),
-      label: new FormControl(null, [Validators.required])
+      date: new FormControl(this.publicHoliday.date, [Validators.required]),
+      label: new FormControl(this.publicHoliday.label, [Validators.required])
     });
   }
 
   onSubmit(){
-    this.addPublicHoliday();
+    if (this.isAddMode) {
+      this.addPublicHoliday();
+    } else {
+      this.updatePublicHoliday();
+    }
+
     this.dialogRef.close();
   }
 
   private addPublicHoliday(){
     this.absenceSrv.addPublicHoliday(this.form.value).subscribe(publicHoliday => {
+      console.log(publicHoliday);
+    });
+  }
+
+  private updatePublicHoliday(){
+    this.absenceSrv.updatePublicHoliday(this.publicHoliday.id, this.form.value).subscribe(publicHoliday => {
       console.log(publicHoliday);
     });
   }

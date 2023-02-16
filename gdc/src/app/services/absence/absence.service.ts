@@ -66,6 +66,10 @@ export class AbsenceService {
     return this.http.post(`${environment.API_URL}public-holidays`, publicHoliday);
   }
 
+  updatePublicHoliday(id: Number, publicHoliday: PublicHoliday){
+    return this.http.put(`${environment.API_URL}public-holidays/${id}`, publicHoliday);
+  }
+
   deletePublicHoliday(id: Number){
     return this.http.delete(`${environment.API_URL}public-holidays/${id}`);
   }

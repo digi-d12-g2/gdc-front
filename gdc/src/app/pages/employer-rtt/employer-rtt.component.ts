@@ -129,15 +129,16 @@ export class EmployerRttComponent implements OnInit {
     });
   }
 
-  openDeleteDialog(id: number) {
+  openDeleteDialog(id: number, type: String) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent,{
       data:{
-        message: 'Etes-vous sûr de vouloir supprimer la demande de RTT employeur ?',
+        message: 'Etes-vous sûr de vouloir supprimer ?',
         buttonText: {
           ok: 'Oui',
           cancel: 'Non'
         },
-        id: id
+        id: id,
+        type: type
       }
     });
 

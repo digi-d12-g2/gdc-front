@@ -41,7 +41,6 @@ export class AbsenceComponent implements OnInit {
     this.user = await this.authSrv.getUser();
     this.refreshList();
     this.loading = false;
-
   }
 
   refreshList(){

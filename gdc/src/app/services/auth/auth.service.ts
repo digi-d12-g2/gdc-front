@@ -4,7 +4,6 @@ import { environment } from '../../../environments/environment';
 import {StorageMap} from '@ngx-pwa/local-storage';
 import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
-import {coerceStringArray} from "@angular/cdk/coercion";
 
 @Injectable({
   providedIn: 'root',
@@ -46,4 +45,12 @@ export class AuthService {
     this.signInEvent.next();
     await this.router.navigate(['/auth']);
   }
+
+  // fonction pour recharger le nb de jour sans se déco, ne fonctionne pas
+  // async getVacationsAvalaible(){
+  //   const user:any = await this.getUser();
+  //   const userW: any = this.login(user.id, user.password);
+  //   this.storeUser(userW);
+  //   console.log(this.getUser());
+  // }
 }

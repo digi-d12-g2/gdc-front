@@ -4,6 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Type } from 'src/app/enums/type';
 import { Absence } from 'src/app/models/Absence.model';
 import { AbsenceService } from 'src/app/services/absence/absence.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { DatesService } from 'src/app/services/dates/dates.service';
 
 @Component({
   selector: 'app-absence-form',
@@ -22,7 +24,9 @@ export class AbsenceFormComponent implements OnInit {
 
   constructor(private absenceSrv: AbsenceService,
     @Inject(MAT_DIALOG_DATA) private data: any,
-    private dialogRef: MatDialogRef<AbsenceFormComponent>) {
+    private dialogRef: MatDialogRef<AbsenceFormComponent>,
+    private datesSrv: DatesService,
+    private authSrv: AuthService) {
 
       this.userId = data.userId;
       this.absence = data.absence?data.absence:new Absence;
@@ -41,6 +45,7 @@ export class AbsenceFormComponent implements OnInit {
   }
 
   onSubmit(){
+    // this.authSrv.getVacationsAvalaible();
 
     if (this.isAddMode) {
       this.addAbsence();
@@ -52,7 +57,8 @@ export class AbsenceFormComponent implements OnInit {
   }
 
   private addAbsence(){
-    console.log(this.form.value);
+    this.datesSrv.transformDate(this.form);
+
     this.absenceSrv.addAbsence(this.form.value).subscribe(absence => {
       console.log(absence);
     });
@@ -70,4 +76,5 @@ export class AbsenceFormComponent implements OnInit {
 
     return valueOfType;
   }
+
 }

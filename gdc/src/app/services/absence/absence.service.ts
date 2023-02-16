@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Absence } from 'src/app/models/Absence.model';
 import { PublicHoliday } from 'src/app/models/PublicHoliday.model';
 import { environment } from '../../../environments/environment';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AbsenceService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authSrv: AuthService) {}
 
   /** absences */
   getAbsences(id: Number) {

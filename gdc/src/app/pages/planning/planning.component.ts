@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { Subscription } from 'rxjs';
-import {AbsenceService} from "../../services/absence/absence.service";
+import { PlanningService } from 'src/app/services/planning/planning.service';
+import { AbsenceService } from 'src/app/services/absence/absence.service';
+import { Subscription, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-planning',
@@ -15,12 +16,14 @@ export class PlanningComponent implements OnInit {
     plugins: [dayGridPlugin],
     initialView: 'dayGridMonth',
     weekends: false,
-    eventDidMount: this.eventDidMount.bind(this)
+    eventDidMount: this.eventDidMount.bind(this),
   };
   signInSubscription: Subscription;
   user!: any;
+  soldeRtt!: any;
 
   constructor(
+    private planningSrv: PlanningService,
     private absenceSrv: AbsenceService,
     private authSrv: AuthService
   ) {
@@ -30,21 +33,69 @@ export class PlanningComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.user = await this.authSrv.getUser();
-    this.absenceSrv.getAbsencesFromUser(this.user.id).subscribe((res) => {
-      this.calendarOptions.events = [];
-      const data = Object.entries(res).map((val: any) => {
-        return val;
-      });
-      for (let i = 0; i < data.length; i++) {
-        this.calendarOptions.events.push({
-          title: data[i][1]['type'],
-          start: new Date(data[i][1]['date_start']),
-          end: new Date(data[i][1]['date_end']),
-          className: data[i][1]['type']
-        });
-      }
+    this.absenceSrv.getSoldeRttEmployer().subscribe(soldeRtt => {
+      this.soldeRtt = soldeRtt;
     });
+
+    this.user = await this.authSrv.getUser();
+
+    const currentYear = new Date().getFullYear();
+    const rttEmployerEvents$ =
+      this.absenceSrv.getRttEmployerEmployee(currentYear);
+    const publicHolidayEvents$ = this.absenceSrv.getPublicHolidays(currentYear);
+    const userAbsenceEvents$ = this.planningSrv.getAbsenceFromUser(
+      this.user.id
+    );
+
+    forkJoin([
+      rttEmployerEvents$,
+      publicHolidayEvents$,
+      userAbsenceEvents$,
+    ]).subscribe(
+      ([rttEmployerEvents, publicHolidayEvents, userAbsenceEvents]) => {
+        const allEvents: {
+          title: string;
+          start: Date | string;
+          end: Date | string;
+          className: string;
+        }[] = [];
+
+        Object.entries(rttEmployerEvents).forEach(([, val]: any) => {
+          allEvents.push({
+            title: val.type,
+            start: val.date_start,
+            end: val.date_end,
+            className: 'RTT_EMPLOYER',
+          });
+        });
+
+        Object.entries(publicHolidayEvents).forEach(([, val]: any) => {
+          allEvents.push({
+            title: val.label,
+            start: val.date,
+            end: val.date,
+            className: 'PUBLIC_HOLIDAY',
+          });
+        });
+
+        Object.entries(userAbsenceEvents).forEach(([, val]: any) => {
+          const startDate = new Date(val.date_start);
+          const endDate = new Date(val.date_end);
+          endDate.setDate(endDate.getDate() + 1);
+
+          if (val.status !== 'REJETEE') {
+            allEvents.push({
+              title: val.type,
+              start: startDate,
+              end: endDate,
+              className: val.type,
+            });
+          }
+        });
+
+        this.calendarOptions.events = allEvents;
+      }
+    );
   }
 
   eventDidMount(info: any) {
@@ -55,10 +106,16 @@ export class PlanningComponent implements OnInit {
         element.style.backgroundColor = 'IndianRed';
         break;
       case 'RTT_EMPLOYE':
-        element.style.backgroundColor = 'LightGreen';
+        element.style.backgroundColor = 'MediumSeaGreen';
         break;
       case 'RTT_EMPLOYEUR':
         element.style.backgroundColor = 'MediumOrchid';
+        break;
+      case 'CONGES_PAYES':
+        element.style.backgroundColor = 'RoyalBlue';
+        break;
+      default:
+        element.style.backgroundColor = 'DarkOrange';
         break;
     }
     const titleElement = element.querySelector('.fc-title');

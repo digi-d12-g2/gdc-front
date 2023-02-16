@@ -1,3 +1,11 @@
 <div class="calendar">
   <full-calendar [options]="calendarOptions"></full-calendar>
 </div>
+
+<div class="balance paid-vacations">
+  Solde congés payés : {{ user.vacations_avalaible }}
+</div>
+<div class="balance rtt">
+  Solde RTT : {{ soldeRtt.rtt_available + user.rtt }} (dont
+  {{ soldeRtt.rtt_available }} employeur)
+</div>

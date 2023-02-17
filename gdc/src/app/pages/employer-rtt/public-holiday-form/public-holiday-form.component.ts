@@ -34,6 +34,7 @@ export class PublicHolidayFormComponent implements OnInit {
 
   onSubmit(){
     this.datesSrv.transformDate(this.form);
+    console.log(this.form.value);
 
     if (this.isAddMode) {
       this.addPublicHoliday();

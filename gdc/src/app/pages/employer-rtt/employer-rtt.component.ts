@@ -62,12 +62,6 @@ export class EmployerRttComponent implements OnInit {
       this.absenceSrv.getRttEmployerAdmin(year).subscribe(rttEmployer => {
         this.rttEmployer = rttEmployer;
 
-        // Object.values<Absence>(this.rttEmployer).forEach(value => {
-        //   const date = new Date(value.date_start);
-        //   this.day = this.weekday[date.getDay()];
-        //   console.log(this.day);
-        // });
-
         this.absenceSrv.getPublicHolidays(year).subscribe(publicH => {
           this.publicH = publicH;
           this.finalTab = [...this.rttEmployer, ...this.publicH];

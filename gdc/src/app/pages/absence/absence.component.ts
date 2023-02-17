@@ -29,6 +29,7 @@ export class AbsenceComponent implements OnInit {
   soldeRtt!: any;
   loading: boolean = true;
   vacations!: any;
+  rtt!: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -47,6 +48,10 @@ export class AbsenceComponent implements OnInit {
   refreshList(){
     this.authSrv.getVacationsAvalaible(this.user.id).subscribe(res => {
       this.vacations = res;
+    });
+
+    this.authSrv.getRttAvalaible(this.user.id).subscribe(res => {
+      this.rtt = res;
     });
 
     this.absenceSrv.getAbsences(this.user.id).subscribe(absences => {

@@ -51,4 +51,10 @@ export class AuthService {
       `${environment.API_URL}user/vacations_avalaible/${id}`
     );
   }
+
+  getRttAvalaible(id: number){
+    return this.http.get(
+      `${environment.API_URL}user/rtt_avalaible/${id}`
+    );
+  }
 }

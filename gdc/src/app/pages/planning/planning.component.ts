@@ -81,7 +81,6 @@ export class PlanningComponent implements OnInit {
         Object.entries(userAbsenceEvents).forEach(([, val]: any) => {
           const startDate = new Date(val.date_start);
           const endDate = new Date(val.date_end);
-          endDate.setDate(endDate.getDate() + 1);
 
           if (val.status !== 'REJETEE') {
             allEvents.push({

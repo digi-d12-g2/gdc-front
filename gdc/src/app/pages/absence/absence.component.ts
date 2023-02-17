@@ -28,6 +28,7 @@ export class AbsenceComponent implements OnInit {
   signInSubscription: Subscription;
   soldeRtt!: any;
   loading: boolean = true;
+  vacations!: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -39,13 +40,15 @@ export class AbsenceComponent implements OnInit {
 
   async ngOnInit() {
     this.user = await this.authSrv.getUser();
-    // this.user.vacations_avalaible = 5;
-    // this.authSrv.storeUser(this.user);
     this.refreshList();
     this.loading = false;
   }
 
   refreshList(){
+    this.authSrv.getVacationsAvalaible(this.user.id).subscribe(res => {
+      this.vacations = res;
+    });
+
     this.absenceSrv.getAbsences(this.user.id).subscribe(absences => {
       this.absences = absences;
       this.dataSource = new MatTableDataSource(this.absences);

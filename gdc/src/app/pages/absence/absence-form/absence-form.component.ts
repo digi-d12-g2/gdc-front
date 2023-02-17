@@ -21,7 +21,6 @@ export class AbsenceFormComponent implements OnInit {
   types = Type;
   isAddMode!: boolean;
 
-
   constructor(private absenceSrv: AbsenceService,
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<AbsenceFormComponent>,
@@ -45,7 +44,7 @@ export class AbsenceFormComponent implements OnInit {
   }
 
   onSubmit(){
-    // this.authSrv.getVacationsAvalaible();
+    this.datesSrv.transformDate(this.form);
 
     if (this.isAddMode) {
       this.addAbsence();
@@ -57,8 +56,6 @@ export class AbsenceFormComponent implements OnInit {
   }
 
   private addAbsence(){
-    this.datesSrv.transformDate(this.form);
-
     this.absenceSrv.addAbsence(this.form.value).subscribe(absence => {
       console.log(absence);
     });

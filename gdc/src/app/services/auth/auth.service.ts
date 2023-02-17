@@ -46,11 +46,9 @@ export class AuthService {
     await this.router.navigate(['/auth']);
   }
 
-  // fonction pour recharger le nb de jour sans se déco, ne fonctionne pas
-  // async getVacationsAvalaible(){
-  //   const user:any = await this.getUser();
-  //   const userW: any = this.login(user.id, user.password);
-  //   this.storeUser(userW);
-  //   console.log(this.getUser());
-  // }
+  getVacationsAvalaible(id: number){
+    return this.http.get(
+      `${environment.API_URL}user/vacations_avalaible/${id}`
+    );
+  }
 }
